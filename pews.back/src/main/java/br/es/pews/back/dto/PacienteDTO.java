@@ -11,10 +11,4 @@ public record PacienteDTO(
         String leito,
         Responsavel responsavel,
         Profissional profissional
-<<<<<<< HEAD
-
-        ) {
-=======
-) {
->>>>>>> 66bb9f9adb94cefce061179282e8382bd5809914
-}
+        ) {}
