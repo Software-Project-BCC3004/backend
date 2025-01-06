@@ -36,4 +36,8 @@ public class ProfissionalServices {
         return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    public ResponseEntity<Profissional> getProfissionalByNome(String nome) {
+        Optional<Profissional> profissional = profissionalRepository.findByNome(nome);
+        return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
