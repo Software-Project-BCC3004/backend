@@ -29,4 +29,8 @@ public class ProfissionalController {
         return profissionalServices.getProfissionalByDocumento(documeto);
     }
 
+    @GetMapping
+    public ResponseEntity<Profissional> getProfissionalByNome(String nome){
+        return profissionalServices.getProfissionalByNome(nome);
+    }
 }
