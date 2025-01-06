@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class ProfissionalController {
 
@@ -17,4 +19,8 @@ public class ProfissionalController {
     public ResponseEntity<Profissional> getProfissionalById(Long id) {
         return profissionalServices.getProfissionalById(id);
     }
+
+    @GetMapping
+    public ResponseEntity<List<Profissional>> getAllProfissionals() {return profissionalServices.getAllProfissionals();}
+
 }
