@@ -1,5 +1,6 @@
 package br.es.pews.back.controller;
 
+import br.es.pews.back.models.Documento;
 import br.es.pews.back.models.Profissional;
 import br.es.pews.back.services.ProfissionalServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,10 @@ public class ProfissionalController {
 
     @GetMapping
     public ResponseEntity<List<Profissional>> getAllProfissionals() {return profissionalServices.getAllProfissionals();}
+
+    @GetMapping
+    public ResponseEntity<Profissional> getProfissionalByDocumento(Documento documeto){
+        return profissionalServices.getProfissionalByDocumento(documeto);
+    }
 
 }

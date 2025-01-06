@@ -1,5 +1,6 @@
 package br.es.pews.back.services;
 
+import br.es.pews.back.models.Documento;
 import br.es.pews.back.models.Profissional;
 import br.es.pews.back.repository.ProfissionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,10 @@ public class ProfissionalServices {
             return ResponseEntity.ok(profissionals);
         }
     }
+
+    public ResponseEntity<Profissional> getProfissionalByDocumento(Documento documento) {
+        Optional<Profissional> profissional = profissionalRepository.findProfissionalByDocumento(documento);
+        return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }
