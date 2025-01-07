@@ -67,4 +67,10 @@ public class ProfissionalServices {
         profissionalRepository.save(profissionalUpdate);
         return ResponseEntity.ok(profissionalUpdate);
     }
+
+    public ResponseEntity<Profissional> deleteProfissional(@PathVariable Long id) {
+        Profissional profissionalDelete = profissionalRepository.findById(id).orElseThrow(() -> new RuntimeException("Profissional with ID " + id + " not found"));
+        profissionalRepository.delete(profissionalDelete);
+        return ResponseEntity.ok(profissionalDelete);
+    }
 }
