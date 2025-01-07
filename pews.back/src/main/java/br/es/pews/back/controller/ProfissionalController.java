@@ -44,4 +44,9 @@ public class ProfissionalController {
     public ResponseEntity<Profissional> updateProfissional(@PathVariable Long id, @Valid @RequestBody ProfissionalDTO profissionalDTO){
         return profissionalServices.updateProfissional(id, profissionalDTO);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Profissional> deleteProfissional (@PathVariable Long id){
+        return profissionalServices.deleteProfissional(id);
+    }
 }
