@@ -25,4 +25,9 @@ public class PacienteServices {
         if (pacientes.isEmpty()) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(pacientes);
     }
+
+    public ResponseEntity<Paciente> getPacienteByCPF(String cpf) {
+       Optional<Paciente> pacienteCPF = pacienteRepository.findByCpfPaciente(cpf);
+       return pacienteCPF.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
