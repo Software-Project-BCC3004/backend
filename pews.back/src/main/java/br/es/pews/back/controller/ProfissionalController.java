@@ -1,14 +1,13 @@
 package br.es.pews.back.controller;
 
+import br.es.pews.back.dto.ProfissionalDTO;
 import br.es.pews.back.models.Documento;
 import br.es.pews.back.models.Profissional;
 import br.es.pews.back.services.ProfissionalServices;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,5 +38,10 @@ public class ProfissionalController {
     @PostMapping
     public ResponseEntity<Profissional> createProfissional(@RequestBody Profissional profissional){
         return profissionalServices.createProfissional(profissional);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Profissional> updateProfissional(@PathVariable Long id, @Valid @RequestBody ProfissionalDTO profissionalDTO){
+        return profissionalServices.updateProfissional(id, profissionalDTO);
     }
 }
