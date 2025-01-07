@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class PacienteController {
 
@@ -16,5 +18,10 @@ public class PacienteController {
     @GetMapping
     public ResponseEntity<Paciente> getPacienteById(Long id) {
         return pacienteServices.getPacienteById(id);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Paciente>> getAllPacientes() {
+        return pacienteServices.getAllPacientes();
     }
 }
