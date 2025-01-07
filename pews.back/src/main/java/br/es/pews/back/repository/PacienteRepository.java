@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
     Paciente findByNome(String nome);
-    Paciente findByCpfPaciente(String cpfPaciente);
+    Optional<Paciente> findByCpfPaciente(String cpfPaciente);
     List<Paciente> findByResponsavel(String nome);
     List<Paciente> findByProfissionalOrderByNome(Profissional profissional);
     @Override

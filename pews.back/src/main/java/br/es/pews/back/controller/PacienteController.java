@@ -24,4 +24,9 @@ public class PacienteController {
     public ResponseEntity<List<Paciente>> getAllPacientes() {
         return pacienteServices.getAllPacientes();
     }
+
+    @GetMapping
+    public ResponseEntity<Paciente> getPacienteByCPF(String cpf) {
+        return pacienteServices.getPacienteByCPF(cpf);
+    }
 }
