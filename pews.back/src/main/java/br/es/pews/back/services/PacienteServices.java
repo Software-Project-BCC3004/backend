@@ -29,11 +29,20 @@ public class PacienteServices {
     }
 
     public ResponseEntity<Paciente> getPacienteByCPF(String cpf) {
-       Optional<Paciente> pacienteCPF = pacienteRepository.findByCpfPaciente(cpf);
-       return pacienteCPF.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<Paciente> pacienteCPF = pacienteRepository.findByCpfPaciente(cpf);
+        return pacienteCPF.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<Paciente> getPacienteByNome (String nome) {
+    public ResponseEntity<Paciente> createPaciente(Paciente paciente) {
+        try {
+            Paciente pacienteSalvo = pacienteRepository.save(paciente);
+            return ResponseEntity.ok().body(pacienteSalvo);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    public ResponseEntity<Paciente> getPacienteByNome(String nome) {
         Optional<Paciente> paciente = pacienteRepository.findByNome(nome);
         return paciente.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -49,5 +58,4 @@ public class PacienteServices {
         if (pacienteProfissional.isEmpty()) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(pacienteProfissional);
     }
-
 }
