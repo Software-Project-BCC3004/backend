@@ -1,5 +1,6 @@
 package br.es.pews.back.controller;
 
+import br.es.pews.back.dto.PacienteDTO;
 import br.es.pews.back.models.Paciente;
 import br.es.pews.back.models.Profissional;
 import br.es.pews.back.models.Responsavel;
@@ -32,10 +33,6 @@ public class PacienteController {
         return pacienteServices.getPacienteByCPF(cpf);
     }
 
-    @PostMapping
-    public ResponseEntity<Paciente> createPaciente(@RequestBody Paciente paciente) {
-        return pacienteServices.createPaciente(paciente);
-    }
 
     @GetMapping("/nome/{nome}")
     public ResponseEntity<Paciente> getPacienteByNome(@PathVariable String nome) {
@@ -51,4 +48,15 @@ public class PacienteController {
     public ResponseEntity<List<Paciente>> getPacienteByProfissionalOrderByNome(@RequestBody Profissional profissional) {
         return pacienteServices.getPacienteByProfissionalOrderByNome(profissional);
     }
+
+    @PostMapping
+    public ResponseEntity<Paciente> createPaciente(@RequestBody Paciente paciente) {
+        return pacienteServices.createPaciente(paciente);
+    }
+
+    @PutMapping("/paciente/{id}")
+    public ResponseEntity<Paciente> updatePaciente(@PathVariable Long id, @RequestBody PacienteDTO pacienteDTO) {
+        return pacienteServices.updatePaciente(id, pacienteDTO);
+    }
+
 }
