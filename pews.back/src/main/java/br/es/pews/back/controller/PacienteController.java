@@ -1,6 +1,8 @@
 package br.es.pews.back.controller;
 
 import br.es.pews.back.models.Paciente;
+import br.es.pews.back.models.Profissional;
+import br.es.pews.back.models.Responsavel;
 import br.es.pews.back.services.PacienteServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,5 +30,20 @@ public class PacienteController {
     @GetMapping
     public ResponseEntity<Paciente> getPacienteByCPF(String cpf) {
         return pacienteServices.getPacienteByCPF(cpf);
+    }
+
+    @GetMapping
+    public ResponseEntity<Paciente> getPacienteByNome(String nome) {
+        return pacienteServices.getPacienteByNome(nome);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Paciente>> getPacienteByNomeResponsavel(Responsavel responsavel) {
+        return pacienteServices.getPacienteByNomeResponsavel(responsavel);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Paciente>> getPacienteByProfissionalOrderByNome(Profissional profissional) {
+        return pacienteServices.getPacienteByProfissionalOrderByNome(profissional);
     }
 }
