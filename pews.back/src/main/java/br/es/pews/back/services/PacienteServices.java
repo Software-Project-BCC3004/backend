@@ -76,4 +76,10 @@ public class PacienteServices {
         pacienteRepository.save(pacienteUpdate);
         return ResponseEntity.ok(pacienteUpdate);
     }
+
+    public ResponseEntity<Paciente> deletePaciente (@PathVariable Long id) {
+        Paciente pacienteDelete = pacienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Paciente with ID " + id + " not found"));
+        pacienteRepository.delete(pacienteDelete);
+        return ResponseEntity.ok(pacienteDelete);
+    }
 }
