@@ -12,40 +12,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/profissional")
 public class ProfissionalController {
 
     @Autowired
     private ProfissionalServices profissionalServices;
 
-    @GetMapping
-    public ResponseEntity<Profissional> getProfissionalById(Long id) {
+    @GetMapping("/consultar/{id}")
+    public ResponseEntity<Profissional> getProfissionalById(@PathVariable Long id) {
         return profissionalServices.getProfissionalById(id);
     }
 
-    @GetMapping
+    @GetMapping("/consultar/todos")
     public ResponseEntity<List<Profissional>> getAllProfissionals() {return profissionalServices.getAllProfissionals();}
 
-    @GetMapping
-    public ResponseEntity<Profissional> getProfissionalByDocumento(Documento documeto){
-        return profissionalServices.getProfissionalByDocumento(documeto);
+    @GetMapping("/consultar/{documento/documento}")
+    public ResponseEntity<Profissional> getProfissionalByDocumento(@PathVariable Documento documento){
+        return profissionalServices.getProfissionalByDocumento(documento);
     }
 
-    @GetMapping
-    public ResponseEntity<Profissional> getProfissionalByNome(String nome){
+    @GetMapping("/consultar/nome/{nome}")
+    public ResponseEntity<Profissional> getProfissionalByNome(@PathVariable String nome){
         return profissionalServices.getProfissionalByNome(nome);
     }
 
-    @PostMapping
+    @PostMapping("/criar")
     public ResponseEntity<Profissional> createProfissional(@RequestBody Profissional profissional){
         return profissionalServices.createProfissional(profissional);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Profissional> updateProfissional(@PathVariable Long id, @Valid @RequestBody ProfissionalDTO profissionalDTO){
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<Profissional> updateProfissional(@PathVariable Long id,
+                                                           @Valid @RequestBody ProfissionalDTO profissionalDTO){
         return profissionalServices.updateProfissional(id, profissionalDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Profissional> deleteProfissional (@PathVariable Long id){
         return profissionalServices.deleteProfissional(id);
     }

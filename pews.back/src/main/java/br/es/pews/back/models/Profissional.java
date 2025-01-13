@@ -24,7 +24,8 @@ public class Profissional {
     private Documento documento;
     private String nome;
     private String funcao;
-    @OneToMany(mappedBy = "medico")
+
+    @OneToMany(mappedBy = "profissional")
     private List<Paciente> pacientes;
 
     public Profissional (ProfissionalDTO profissionalDTO) {

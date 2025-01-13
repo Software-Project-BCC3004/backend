@@ -46,14 +46,14 @@ public class PacienteServices {
         return paciente.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<List<Paciente>> getPacienteByNomeResponsavel(Responsavel responsavel) {
-        List<Paciente> pacienteResponsavel = pacienteRepository.findByResponsavel(responsavel);
+    public ResponseEntity<List<Paciente>> getPacienteByNomeResponsavel(String nome) {
+        List<Paciente> pacienteResponsavel = pacienteRepository.findByNomeResponsavel(nome);
         if (pacienteResponsavel.isEmpty()) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(pacienteResponsavel);
     }
 
-    public ResponseEntity<List<Paciente>> getPacienteByProfissionalOrderByNome(Profissional profissional) {
-        List<Paciente> pacienteProfissional = pacienteRepository.findByProfissionalOrderByNome(profissional);
+    public ResponseEntity<List<Paciente>> getPacienteByProfissionalOrderByNome(String nome) {
+        List<Paciente> pacienteProfissional = pacienteRepository.findByProfissionalOrderByNome(nome);
         if (pacienteProfissional.isEmpty()) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(pacienteProfissional);
     }
