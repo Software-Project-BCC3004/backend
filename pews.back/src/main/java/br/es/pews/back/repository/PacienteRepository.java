@@ -1,9 +1,9 @@
 package br.es.pews.back.repository;
 
 import br.es.pews.back.models.Paciente;
-import br.es.pews.back.models.Profissional;
-import br.es.pews.back.models.Responsavel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,8 +11,13 @@ import java.util.Optional;
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
     Optional<Paciente> findByNome(String nome);
     Optional<Paciente> findByCpfPaciente(String cpfPaciente);
-    List<Paciente> findByResponsavel(Responsavel responsavel);
-    List<Paciente> findByProfissionalOrderByNome(Profissional profissional);
+
+    @Query("SELECT p FROM Paciente p WHERE p.responsavel.nome =:nome")
+    List<Paciente> findByNomeResponsavel(@Param("nome") String nome);
+
+    @Query("SELECT p FROM Paciente p WHERE LOWER(p.profissional.nome) LIKE LOWER(CONCAT('%', :nome, '%')) ORDER BY p.nome ASC")
+    List<Paciente> findByProfissionalOrderByNome(@Param("nome") String nome);
+
     @Override
     Optional<Paciente> findById(Long id);
     @Override
