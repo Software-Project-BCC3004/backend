@@ -10,5 +10,6 @@ public record PacienteDTO(
         String diagnostico,
         String leito,
         Responsavel responsavel,
-        Profissional profissional
+        Profissional profissional,
+        String grauSeveridade
         ) {}

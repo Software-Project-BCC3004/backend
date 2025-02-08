@@ -10,6 +10,7 @@ public record ProfissionalDTO(
         Documento documento,
         String nome,
         String funcao,
-        List<Paciente>pacientes
+        List<Paciente>pacientes,
+        String email
 ) {
 }
