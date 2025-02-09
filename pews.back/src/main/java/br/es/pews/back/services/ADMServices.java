@@ -48,4 +48,11 @@ public class ADMServices {
         admRepository.save(admUpdated);
         return ResponseEntity.ok(admUpdated);
     }
+
+    public ResponseEntity<ADM> delete(@PathVariable Long id) {
+        ADM admDelete = admRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("ADM with ID: " + id + " not found"));
+        admRepository.delete(admDelete);
+        return ResponseEntity.ok(admDelete);
+    }
 }

@@ -21,9 +21,15 @@ public class ADMController {
         return admServices.save(adm);
     }
 
-    @PutMapping
+    @PutMapping("/atualizar/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ADM> updateADM(@PathVariable Long id, @RequestBody AdmDTO admDTO) {
         return admServices.update(id, admDTO);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<ADM> deleteADM(@PathVariable Long id) {
+        return admServices.delete(id);
     }
 }
