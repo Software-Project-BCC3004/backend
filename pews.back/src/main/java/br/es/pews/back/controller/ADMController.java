@@ -1,5 +1,6 @@
 package br.es.pews.back.controller;
 
+import br.es.pews.back.dto.AdmDTO;
 import br.es.pews.back.models.ADM;
 import br.es.pews.back.services.ADMServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,11 @@ public class ADMController {
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ADM> createADM(@RequestBody ADM adm) {
         return admServices.save(adm);
+    }
+
+    @PutMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<ADM> updateADM(@PathVariable Long id, @RequestBody AdmDTO admDTO) {
+        return admServices.update(id, admDTO);
     }
 }
