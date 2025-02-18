@@ -4,7 +4,6 @@ import br.es.pews.back.dto.AdmDTO;
 import br.es.pews.back.models.ADM;
 import br.es.pews.back.repository.ADMRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,18 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Service
 public class ADMServices {
 
-    @Autowired
     private final ADMRepository admRepository;
 
-    @Autowired
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
-    public ADMServices(ADMRepository admRepository, PasswordEncoder passwordEncoder) {
+    public ADMServices(ADMRepository admRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
         this.admRepository = admRepository;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
     }
 
     public ResponseEntity<ADM> save(@RequestBody ADM adm) {
