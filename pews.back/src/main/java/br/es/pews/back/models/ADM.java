@@ -23,10 +23,19 @@ public class ADM {
     @Column(unique = true, nullable = false)
     private String password;
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public ADM(AdmDTO admDTO){
         this.id = admDTO.id();
         this.email = admDTO.email();
         this.password = admDTO.password();
+        
     }
 }
 
