@@ -32,6 +32,9 @@ public class Profissional {
     @Email(message = "Email não válido")
     @NotBlank(message = "Email não pode estar vazio")
     private String email;
+    @NotBlank(message = "Email não pode estar vazio")
+    @Column(unique = true, nullable = false)
+    private String senha;
 
     @OneToMany(mappedBy = "profissional")
     private List<Paciente> pacientes;
@@ -42,5 +45,6 @@ public class Profissional {
         this.nome = profissionalDTO.nome();
         this.funcao = profissionalDTO.funcao();
         this.email = profissionalDTO.email();
+        this.senha = profissionalDTO.senha();
     }
 }

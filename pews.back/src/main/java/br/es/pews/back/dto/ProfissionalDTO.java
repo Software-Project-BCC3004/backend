@@ -11,6 +11,7 @@ public record ProfissionalDTO(
         String nome,
         String funcao,
         List<Paciente>pacientes,
-        String email
+        String email,
+        String senha
 ) {
 }

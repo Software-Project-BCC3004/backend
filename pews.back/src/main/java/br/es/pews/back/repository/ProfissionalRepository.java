@@ -15,4 +15,6 @@ public interface ProfissionalRepository extends JpaRepository<Profissional, Long
     @Override
     Optional<Profissional> findById(Long aLong);
     List<Profissional> findAll();
+
+    Optional<Profissional> findByEmail(String email);
 }

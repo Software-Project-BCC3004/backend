@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,9 @@ public class ProfissionalServices {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public ResponseEntity<Profissional> getProfissionalById(Long id) {
         Optional<Profissional> profissional = profissionalRepository.findById(id);
@@ -51,6 +55,7 @@ public class ProfissionalServices {
 
     public ResponseEntity<Profissional> createProfissional(@RequestBody Profissional profissional) {
         try {
+            profissional.setSenha(passwordEncoder.encode(profissional.getSenha()));
             Profissional profissionalSalvo = profissionalRepository.save(profissional);
             return ResponseEntity.ok(profissionalSalvo);
         } catch (Exception e) {
