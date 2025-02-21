@@ -1,7 +1,6 @@
 package br.es.pews.back.dto;
 
-public record AdmDTO(
-        Long id,
+public record LoginDTO(
         String email,
         String senha
 )
