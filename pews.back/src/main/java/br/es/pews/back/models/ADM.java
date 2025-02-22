@@ -34,7 +34,7 @@ public class ADM {
     public ADM(AdmDTO admDTO){
         this.id = admDTO.id();
         this.email = admDTO.email();
-        this.password = admDTO.password();
+        this.password = admDTO.senha();
         
     }
 }
