@@ -1,22 +1,7 @@
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8081:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/pewsDatabase
-      - SPRING_DATASOURCE_USERNAME=rootdb
-      - SPRING_DATASOURCE_PASSWORD=rootdb
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    depends_on:
-      postgres:
-        condition: service_healthy
-    restart: unless-stopped
-
   postgres:
     image: postgres:latest
+    container_name: postgres
     environment:
       - POSTGRES_USER=rootdb
       - POSTGRES_PASSWORD=rootdb
@@ -27,10 +12,30 @@ services:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "rootdb", "-d", "pewsDatabase"]
-      interval: 10s
-      retries: 5
-      start_period: 10s
-    restart: unless-stopped
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pewsback-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/pewsDatabase
+      - SPRING_DATASOURCE_USERNAME=rootdb
+      - SPRING_DATASOURCE_PASSWORD=rootdb
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - JWT_PRIVATE_KEY_PATH=/keys/private_key.pem
+      - JWT_PUBLIC_KEY_PATH=/keys/public_key.pem
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - ./keys:/keys
 volumes:
   postgres_data:

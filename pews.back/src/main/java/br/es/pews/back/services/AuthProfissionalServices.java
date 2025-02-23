@@ -26,12 +26,12 @@ public class AuthProfissionalServices {
     private JwtsService jwtsService;
 
     public String login(LoginDTO loginDTO) {
-        Profissional profissional = profissionalRepository.findByEmail(loginDTO.email())
+        Profissional profissional = profissionalRepository.findByEmailprofissional(loginDTO.email())
                 .orElseThrow(()-> new RuntimeException("Credenciais incorretas"));
 
-        if (!passwordEncoder.matches(loginDTO.senha(), profissional.getSenha())) {
+        if (!passwordEncoder.matches(loginDTO.senha(), profissional.getSenhaProfissional())) {
            throw new RuntimeException("Senha incorreta");
         }
-        return jwtsService.generateToken(profissional.getEmail());
+        return jwtsService.generateToken(profissional.getEmailprofissional());
     }
 }

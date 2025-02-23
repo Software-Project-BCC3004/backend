@@ -19,22 +19,22 @@ public class ADM {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true, nullable = false)
-    private String email;
+    private String emailADM;
     @Column(unique = true, nullable = false)
-    private String password;
+    private String senhadADM;
 
     public void setPassword(String password) {
-        this.password = password;
+        this.senhadADM = password;
     }
 
     public String getPassword() {
-        return password;
+        return senhadADM;
     }
 
     public ADM(AdmDTO admDTO){
         this.id = admDTO.id();
-        this.email = admDTO.email();
-        this.password = admDTO.senha();
+        this.emailADM = admDTO.emailADM();
+        this.senhadADM = admDTO.senhaADM();
         
     }
 }

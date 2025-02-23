@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EntityScan("br.es.pews.back.models")
+@EntityScan({"br.es.pews.back.models", "br.es.pews.back.form"})
 @EnableJpaRepositories("br.es.pews.back.repository")
 public class Application {
 	public static void main(String[] args) {

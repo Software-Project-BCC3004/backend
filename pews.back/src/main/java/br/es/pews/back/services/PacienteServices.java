@@ -41,8 +41,8 @@ public class PacienteServices {
     }
 
 
-    public ResponseEntity<Paciente> getPacienteByNome(String nome) {
-        Optional<Paciente> paciente = pacienteRepository.findByNome(nome);
+    public ResponseEntity<Paciente> getPacienteByNome(String nomePaciente) {
+        Optional<Paciente> paciente = pacienteRepository.findByNomePaciente(nomePaciente);
         return paciente.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 

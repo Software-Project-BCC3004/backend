@@ -11,13 +11,13 @@ import java.util.Optional;
 
 @Repository
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
-    Optional<Paciente> findByNome(String nome);
+    Optional<Paciente> findByNomePaciente(String nomePaciente);
     Optional<Paciente> findByCpfPaciente(String cpfPaciente);
 
-    @Query("SELECT p FROM Paciente p WHERE p.responsavel.nome =:nome")
+    @Query("SELECT p FROM Paciente p WHERE p.responsavel.nomeResponsavel =:nome")
     List<Paciente> findByNomeResponsavel(@Param("nome") String nome);
 
-    @Query("SELECT p FROM Paciente p WHERE LOWER(p.profissional.nome) LIKE LOWER(CONCAT('%', :nome, '%')) ORDER BY p.nome ASC")
+    @Query("SELECT p FROM Paciente p WHERE LOWER(p.profissional.nomeProfissional) LIKE LOWER(CONCAT('%', :nome, '%')) ORDER BY p.nomePaciente ASC")
     List<Paciente> findByProfissionalOrderByNome(@Param("nome") String nome);
 
     @Override

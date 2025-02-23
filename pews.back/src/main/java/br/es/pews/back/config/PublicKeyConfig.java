@@ -1,5 +1,6 @@
 package br.es.pews.back.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
@@ -15,8 +16,9 @@ import java.security.spec.X509EncodedKeySpec;
 @Configuration
 public class PublicKeyConfig {
 
+    @Bean
     public PublicKey getPublicKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        Path path = Paths.get("C:/Users/gabri/Code/backend/pews.back/public.pem");
+        Path path = Paths.get(System.getenv("JWT_PUBLIC_KEY_PATH"));
         byte[] keyBytes = Files.readAllBytes(path);
         String publicKeyPem = new String(keyBytes)
                 .replace("-----BEGIN PUBLIC KEY-----", "")

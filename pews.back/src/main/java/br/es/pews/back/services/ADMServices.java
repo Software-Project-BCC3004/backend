@@ -7,17 +7,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ADMServices {
 
     private final ADMRepository admRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final ModelMapper modelMapper;
 
     public ADMServices(ADMRepository admRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
@@ -26,7 +22,8 @@ public class ADMServices {
         this.modelMapper = modelMapper;
     }
 
-    public ResponseEntity<ADM> save(@RequestBody ADM adm) {
+    @Transactional
+    public ResponseEntity<ADM> save(ADM adm) {
         try {
             adm.setPassword(passwordEncoder.encode(adm.getPassword()));
             ADM admSaved = admRepository.save(adm);
@@ -36,17 +33,18 @@ public class ADMServices {
         }
     }
 
-    public ResponseEntity<ADM> update(@PathVariable Long id, @RequestBody AdmDTO admDTO) {
+    @Transactional
+    public ResponseEntity<ADM> update(Long id, AdmDTO admDTO) {
         ADM admUpdated = admRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("ADM with ID: " + id + " not found"));
 
         modelMapper.map(admDTO, admUpdated);
-
         admRepository.save(admUpdated);
         return ResponseEntity.ok(admUpdated);
     }
 
-    public ResponseEntity<ADM> delete(@PathVariable Long id) {
+    @Transactional
+    public ResponseEntity<ADM> delete(Long id) {
         ADM admDelete = admRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("ADM with ID: " + id + " not found"));
         admRepository.delete(admDelete);

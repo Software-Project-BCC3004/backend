@@ -5,7 +5,7 @@ import br.es.pews.back.models.Responsavel;
 
 public record PacienteDTO(
         Long id,
-        String nome,
+        String nomePaciente,
         String cpfPaciente,
         String diagnostico,
         String leito,

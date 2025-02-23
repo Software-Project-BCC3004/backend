@@ -1,5 +1,6 @@
-package br.es.pews.back.form;
+package br.es.pews.back.models;
 
+import br.es.pews.back.form.Pontuacao;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(name = "avaliacao_pews")
 public class AvaliacaoPews {
 
     @Id

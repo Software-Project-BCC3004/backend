@@ -8,10 +8,10 @@ import java.util.List;
 public record ProfissionalDTO(
         Long id,
         Documento documento,
-        String nome,
+        String nomeProfissional,
         String funcao,
         List<Paciente>pacientes,
-        String email,
-        String senha
+        String emailprofissional,
+        String senhaProfissional
 ) {
 }

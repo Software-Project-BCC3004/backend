@@ -1,7 +1,7 @@
 package br.es.pews.back.services;
 
 
-import br.es.pews.back.form.AvaliacaoPews;
+import br.es.pews.back.models.AvaliacaoPews;
 import br.es.pews.back.repository.AvaliacaoPewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class AvaliacaoPewsServices {
     }
 
     public List<AvaliacaoPews> listarPorPontuacao() {
-        return repository.getPontuacaoByOrderByPontucaoTotalDesc();
+        return repository.findAllByOrderByPontuacaoTotalDesc();
     }
 
     public Optional<AvaliacaoPews> findPontuacaoById(Long id) {
