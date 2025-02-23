@@ -10,11 +10,11 @@ import java.util.Optional;
 
 @Repository
 public interface ProfissionalRepository extends JpaRepository<Profissional, Long> {
-    Optional<Profissional> findByNome(String nome);
+    Optional<Profissional> findByNomeProfissional(String nomeProfissional);
     Optional<Profissional> findProfissionalByDocumento (Documento documento);
     @Override
     Optional<Profissional> findById(Long aLong);
     List<Profissional> findAll();
 
-    Optional<Profissional> findByEmail(String email);
+    Optional<Profissional> findByEmailprofissional(String emailProissional);
 }

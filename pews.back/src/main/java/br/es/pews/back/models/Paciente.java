@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Table(name = "paciente")
@@ -16,35 +17,49 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Paciente {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank(message = "Nome não pode estar vazio")
-    private String nome;
+    @Column(name = "nomePaciente", nullable = false)
+    private String nomePaciente;
     @NotBlank(message = "CPF do paciente não pode estar vazio")
-    @Column(unique = true, nullable = false)
+    @Column(name = "cpfPaciente", unique = true, nullable = false)
+    @CPF(message = "CPF inválido")
     private String cpfPaciente;
+
     @NotBlank(message = "Diagnóstico do paciente não pode estar vazio")
+    @Column(name = "diagnostico", nullable = false)
     private String diagnostico;
+
     @NotBlank(message = "Leito do paciente não pode estar vazio")
+    @Column(name = "leito", nullable = false)
     private String leito;
 
+    @Column(name = "grauSeveridade", nullable = false)
     private String grauSeveridade;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "nomeResponsavel", column = @Column(name = "responsavel_nome")),
+            @AttributeOverride(name = "cpfResponsavel", column = @Column(name = "responsavel_cpf"))
+    })
     private Responsavel responsavel;
 
-    @ManyToOne
-    @JoinColumn(name = "medico_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "medico_id", nullable = false)
     private Profissional profissional;
 
-    public Paciente(PacienteDTO pacienteDTO){
-        this.id = pacienteDTO.id();
-        this.nome = pacienteDTO.nome();
-        this.cpfPaciente = pacienteDTO.cpfPaciente();
-        this.diagnostico = pacienteDTO.diagnostico();
-        this.leito = pacienteDTO.leito();
-        this.responsavel = pacienteDTO.responsavel();
-        this.profissional = pacienteDTO.profissional();
-        this.grauSeveridade = pacienteDTO.grauSeveridade();
+    public Paciente(PacienteDTO pacienteDTO) {
+        if (pacienteDTO != null) {
+            this.id = pacienteDTO.id();
+            this.nomePaciente = pacienteDTO.nomePaciente();
+            this.cpfPaciente = pacienteDTO.cpfPaciente();
+            this.diagnostico = pacienteDTO.diagnostico();
+            this.leito = pacienteDTO.leito();
+            this.responsavel = pacienteDTO.responsavel();
+            this.profissional = pacienteDTO.profissional();
+            this.grauSeveridade = pacienteDTO.grauSeveridade();
+        }
     }
 }

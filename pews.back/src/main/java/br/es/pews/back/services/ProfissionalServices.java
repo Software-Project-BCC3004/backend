@@ -48,14 +48,14 @@ public class ProfissionalServices {
         return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<Profissional> getProfissionalByNome(String nome) {
-        Optional<Profissional> profissional = profissionalRepository.findByNome(nome);
+    public ResponseEntity<Profissional> getProfissionalByNome(String nomeProfissional) {
+        Optional<Profissional> profissional = profissionalRepository.findByNomeProfissional(nomeProfissional);
         return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     public ResponseEntity<Profissional> createProfissional(@RequestBody Profissional profissional) {
         try {
-            profissional.setSenha(passwordEncoder.encode(profissional.getSenha()));
+            profissional.setSenhaProfissional(passwordEncoder.encode(profissional.getSenhaProfissional()));
             Profissional profissionalSalvo = profissionalRepository.save(profissional);
             return ResponseEntity.ok(profissionalSalvo);
         } catch (Exception e) {

@@ -2,7 +2,7 @@ package br.es.pews.back.dto;
 
 public record AdmDTO(
         Long id,
-        String email,
-        String senha
+        String emailADM,
+        String senhaADM
 )
 { }

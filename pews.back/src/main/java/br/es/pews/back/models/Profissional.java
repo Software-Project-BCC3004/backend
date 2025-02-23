@@ -19,32 +19,33 @@ import java.util.List;
 @AllArgsConstructor
 public class Profissional {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Embedded
-    @NotBlank(message = "Documento não pode estar vazio")
-    @Column(unique = true, nullable = false)
     private Documento documento;
     @NotBlank(message = "Nome não pode estar vazio")
-    private String nome;
+    @Column(name = "nomeProfissional", unique = true, nullable = false)
+    private String nomeProfissional;
     @NotBlank(message = "Função não pode estar vazio")
+    @Column(name = "funcaoProfissional", nullable = false)
     private String funcao;
     @Email(message = "Email não válido")
     @NotBlank(message = "Email não pode estar vazio")
-    private String email;
-    @NotBlank(message = "Email não pode estar vazio")
-    @Column(unique = true, nullable = false)
-    private String senha;
+    @Column(name = "emailprofissional", unique = true, nullable = false)
+    private String emailprofissional;
+    @NotBlank(message = "Senha não pode estar vazio")
+    @Column(name = "senhaProfissional", nullable = false)
+    private String senhaProfissional;
 
-    @OneToMany(mappedBy = "profissional")
+    @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Paciente> pacientes;
 
     public Profissional (ProfissionalDTO profissionalDTO) {
         this.id = profissionalDTO.id();
         this.documento = profissionalDTO.documento();
-        this.nome = profissionalDTO.nome();
+        this.nomeProfissional = profissionalDTO.nomeProfissional();
         this.funcao = profissionalDTO.funcao();
-        this.email = profissionalDTO.email();
-        this.senha = profissionalDTO.senha();
+        this.emailprofissional = profissionalDTO.emailprofissional();
+        this.senhaProfissional = profissionalDTO.senhaProfissional();
     }
 }

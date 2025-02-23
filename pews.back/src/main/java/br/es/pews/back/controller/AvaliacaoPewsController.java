@@ -1,7 +1,7 @@
 package br.es.pews.back.controller;
 
 
-import br.es.pews.back.form.AvaliacaoPews;
+import br.es.pews.back.models.AvaliacaoPews;
 import br.es.pews.back.services.AvaliacaoPewsServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

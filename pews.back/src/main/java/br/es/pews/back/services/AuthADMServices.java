@@ -25,12 +25,12 @@ public class AuthADMServices {
     private JwtsService jwtsService;
 
     public String login(LoginDTO loginDTO) {
-        ADM adm = admRepository.findByEmail(loginDTO.email())
+        ADM adm = admRepository.findByEmailADM(loginDTO.email())
                 .orElseThrow(() -> new RuntimeException("Credenciais incorretas"));
 
         if(!passwordEncoder.matches(loginDTO.senha(), adm.getPassword())) {
             throw new RuntimeException("Senha incorreta");
         }
-        return jwtsService.generateToken(adm.getEmail());
+        return jwtsService.generateToken(adm.getEmailADM());
     }
 }

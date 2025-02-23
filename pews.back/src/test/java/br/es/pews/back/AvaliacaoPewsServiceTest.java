@@ -1,6 +1,6 @@
 package br.es.pews.back;
 
-import br.es.pews.back.form.AvaliacaoPews;
+import br.es.pews.back.models.AvaliacaoPews;
 import br.es.pews.back.form.Pontuacao;
 import br.es.pews.back.repository.AvaliacaoPewsRepository;
 import br.es.pews.back.services.AvaliacaoPewsServices;
@@ -11,14 +11,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@TestPropertySource(locations = "classpath:application-test.properties")
 class AvaliacaoPewsServiceTest {
 
     @InjectMocks

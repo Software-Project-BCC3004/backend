@@ -1,5 +1,6 @@
 package br.es.pews.back.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.nio.file.Files;
@@ -12,8 +13,9 @@ import java.security.spec.PKCS8EncodedKeySpec;
 @Configuration
 public class PrivateKeyConfig {
 
+    @Bean
     public PrivateKey getPrivateKey() throws Exception {
-        Path path = Paths.get("C:/Users/gabri/Code/backend/pews.back/private.pem");
+        Path path = Paths.get(System.getenv("JWT_PRIVATE_KEY_PATH"));
         byte[] keyBytes = Files.readAllBytes(path);
         String privateKeyPem = new String(keyBytes)
                 .replace("-----BEGIN PRIVATE KEY-----", "")

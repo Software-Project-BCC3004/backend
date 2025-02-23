@@ -1,10 +1,17 @@
 package br.es.pews.back.models;
 
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Embeddable
-public record Responsavel(
-        String nome,
-        String cpf
-)
-{ }
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Responsavel {
+    private String nomeResponsavel;
+    private String cpfResponsavel;
+}
