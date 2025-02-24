@@ -48,8 +48,8 @@ public class PacienteController {
     }
 
     @PostMapping("/criar")
-    public ResponseEntity<Paciente> createPaciente(@RequestBody Paciente paciente) {
-        return pacienteServices.createPaciente(paciente);
+    public ResponseEntity<Paciente> createPaciente(@RequestBody PacienteDTO pacienteDTO) {
+        return pacienteServices.createPaciente(pacienteDTO);
     }
 
     @PutMapping("/atualizar/{id}")
@@ -58,7 +58,8 @@ public class PacienteController {
     }
 
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Paciente> deletePaciente(@PathVariable Long id) {
-        return pacienteServices.deletePaciente(id);
-    }
+public ResponseEntity<Void> deletePaciente(@PathVariable Long id) {
+    return pacienteServices.deletePaciente(id);
+}
+
 }

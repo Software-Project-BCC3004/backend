@@ -5,7 +5,6 @@ import br.es.pews.back.models.Documento;
 import br.es.pews.back.models.Profissional;
 import br.es.pews.back.repository.ProfissionalRepository;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,9 +22,6 @@ public class ProfissionalServices {
     private ProfissionalRepository profissionalRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public ResponseEntity<Profissional> getProfissionalById(Long id) {
@@ -38,9 +34,7 @@ public class ProfissionalServices {
         if (profissionals.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        else {
-            return ResponseEntity.ok(profissionals);
-        }
+        return ResponseEntity.ok(profissionals);
     }
 
     public ResponseEntity<Profissional> getProfissionalByDocumento(Documento documento) {
@@ -67,14 +61,30 @@ public class ProfissionalServices {
         Profissional profissionalUpdate = profissionalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Profissional with ID " + id + " not found"));
 
-        modelMapper.map(profissionalDTO, profissionalUpdate);
+        // Atualização manual dos campos
+        if (profissionalDTO.documento() != null) {
+            profissionalUpdate.setDocumento(profissionalDTO.documento());
+        }
+        if (profissionalDTO.nomeProfissional() != null && !profissionalDTO.nomeProfissional().isBlank()) {
+            profissionalUpdate.setNomeProfissional(profissionalDTO.nomeProfissional());
+        }
+        if (profissionalDTO.funcao() != null && !profissionalDTO.funcao().isBlank()) {
+            profissionalUpdate.setFuncao(profissionalDTO.funcao());
+        }
+        if (profissionalDTO.emailprofissional() != null && !profissionalDTO.emailprofissional().isBlank()) {
+            profissionalUpdate.setEmailprofissional(profissionalDTO.emailprofissional());
+        }
+        if (profissionalDTO.senhaProfissional() != null && !profissionalDTO.senhaProfissional().isBlank()) {
+            profissionalUpdate.setSenhaProfissional(passwordEncoder.encode(profissionalDTO.senhaProfissional())); // Garante criptografia
+        }
 
         profissionalRepository.save(profissionalUpdate);
         return ResponseEntity.ok(profissionalUpdate);
     }
 
     public ResponseEntity<Profissional> deleteProfissional(@PathVariable Long id) {
-        Profissional profissionalDelete = profissionalRepository.findById(id).orElseThrow(() -> new RuntimeException("Profissional with ID " + id + " not found"));
+        Profissional profissionalDelete = profissionalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Profissional with ID " + id + " not found"));
         profissionalRepository.delete(profissionalDelete);
         return ResponseEntity.ok(profissionalDelete);
     }

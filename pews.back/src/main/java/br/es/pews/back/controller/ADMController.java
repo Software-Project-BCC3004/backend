@@ -4,6 +4,7 @@ import br.es.pews.back.dto.AdmDTO;
 import br.es.pews.back.models.ADM;
 import br.es.pews.back.services.ADMServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,17 @@ public class ADMController {
         return admServices.update(id, admDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<ADM> deleteADM(@PathVariable Long id) {
+   @DeleteMapping("/delete/{id}")
+   @PreAuthorize("hasAnyAuthority('ADMIN')")
+public ResponseEntity<?> deleteADM(@PathVariable("id") Long id) {
+    try {
         return admServices.delete(id);
+    } catch (Exception e) {
+        e.printStackTrace(); // Log the full stack trace
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body("Error: " + e.getMessage());
     }
+}
+    
+
 }

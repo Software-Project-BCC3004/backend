@@ -5,12 +5,11 @@ import br.es.pews.back.models.Paciente;
 import br.es.pews.back.models.Profissional;
 import br.es.pews.back.models.Responsavel;
 import br.es.pews.back.repository.PacienteRepository;
-import org.modelmapper.ModelMapper;
+import br.es.pews.back.repository.ProfissionalRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,64 +21,138 @@ public class PacienteServices {
     private PacienteRepository pacienteRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private ProfissionalRepository profissionalRepository;
 
     public ResponseEntity<Paciente> getPacienteById(Long id) {
-        Optional<Paciente> paciente = pacienteRepository.findById(id);
-        return paciente.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return pacienteRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     public ResponseEntity<List<Paciente>> getAllPacientes() {
         List<Paciente> pacientes = pacienteRepository.findAll();
-        if (pacientes.isEmpty()) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(pacientes);
+        return pacientes.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pacientes);
     }
 
     public ResponseEntity<Paciente> getPacienteByCPF(String cpf) {
-        Optional<Paciente> pacienteCPF = pacienteRepository.findByCpfPaciente(cpf);
-        return pacienteCPF.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return pacienteRepository.findByCpfPaciente(cpf)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-
     public ResponseEntity<Paciente> getPacienteByNome(String nomePaciente) {
-        Optional<Paciente> paciente = pacienteRepository.findByNomePaciente(nomePaciente);
-        return paciente.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return pacienteRepository.findByNomePaciente(nomePaciente)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     public ResponseEntity<List<Paciente>> getPacienteByNomeResponsavel(String nome) {
         List<Paciente> pacienteResponsavel = pacienteRepository.findByNomeResponsavel(nome);
-        if (pacienteResponsavel.isEmpty()) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(pacienteResponsavel);
+        return pacienteResponsavel.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pacienteResponsavel);
     }
 
     public ResponseEntity<List<Paciente>> getPacienteByProfissionalOrderByNome(String nome) {
         List<Paciente> pacienteProfissional = pacienteRepository.findByProfissionalOrderByNome(nome);
-        if (pacienteProfissional.isEmpty()) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(pacienteProfissional);
+        return pacienteProfissional.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pacienteProfissional);
     }
 
-    public ResponseEntity<Paciente> createPaciente(Paciente paciente) {
+    @Transactional
+    public ResponseEntity<Paciente> createPaciente(PacienteDTO pacienteDTO) {
         try {
-            Paciente pacienteSalvo = pacienteRepository.save(paciente);
-            return ResponseEntity.ok().body(pacienteSalvo);
+            System.out.println("📌 Criando paciente: " + pacienteDTO);
+
+            Paciente paciente = new Paciente();
+            paciente.setNomePaciente(pacienteDTO.nomePaciente());
+            paciente.setCpfPaciente(pacienteDTO.cpfPaciente());
+            paciente.setDiagnostico(pacienteDTO.diagnostico());
+            paciente.setLeito(pacienteDTO.leito());
+            paciente.setGrauSeveridade(pacienteDTO.grauSeveridade());
+
+            if (pacienteDTO.responsavel() != null) {
+                paciente.setResponsavel(new Responsavel(
+                        pacienteDTO.responsavel().getNomeResponsavel(),
+                        pacienteDTO.responsavel().getCpfResponsavel()
+                ));
+            }
+
+            if (pacienteDTO.profissional() != null && pacienteDTO.profissional().getId() != null) {
+                Optional<Profissional> profissional = profissionalRepository.findById(pacienteDTO.profissional().getId());
+                profissional.ifPresent(paciente::setProfissional);
+            }
+
+            Paciente pacienteSalvo = pacienteRepository.saveAndFlush(paciente);
+            System.out.println("✅ Paciente salvo: " + pacienteSalvo);
+
+            return ResponseEntity.ok(pacienteSalvo);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            System.out.println("❌ ERRO AO SALVAR PACIENTE: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
         }
     }
 
-    public ResponseEntity<Paciente> updatePaciente(@PathVariable Long id,@RequestBody PacienteDTO pacienteDTO) {
-        Paciente pacienteUpdate = pacienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paciente with ID " + id + " not found"));
+    @Transactional
+    public ResponseEntity<Paciente> updatePaciente(Long id, PacienteDTO pacienteDTO) {
+        try {
+            System.out.println("📌 Atualizando paciente com ID: " + id);
 
-        modelMapper.map(pacienteDTO, pacienteUpdate);
+            Paciente pacienteUpdate = pacienteRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("❌ Paciente com ID " + id + " não encontrado"));
 
-        pacienteRepository.save(pacienteUpdate);
-        return ResponseEntity.ok(pacienteUpdate);
+            if (pacienteDTO.nomePaciente() != null && !pacienteDTO.nomePaciente().isBlank()) {
+                pacienteUpdate.setNomePaciente(pacienteDTO.nomePaciente());
+            }
+            if (pacienteDTO.cpfPaciente() != null && !pacienteDTO.cpfPaciente().isBlank()) {
+                pacienteUpdate.setCpfPaciente(pacienteDTO.cpfPaciente());
+            }
+            if (pacienteDTO.diagnostico() != null && !pacienteDTO.diagnostico().isBlank()) {
+                pacienteUpdate.setDiagnostico(pacienteDTO.diagnostico());
+            }
+            if (pacienteDTO.leito() != null && !pacienteDTO.leito().isBlank()) {
+                pacienteUpdate.setLeito(pacienteDTO.leito());
+            }
+            if (pacienteDTO.grauSeveridade() != null && !pacienteDTO.grauSeveridade().isBlank()) {
+                pacienteUpdate.setGrauSeveridade(pacienteDTO.grauSeveridade());
+            }
+            if (pacienteDTO.responsavel() != null) {
+                if (pacienteUpdate.getResponsavel() == null) {
+                    pacienteUpdate.setResponsavel(new Responsavel());
+                }
+                pacienteUpdate.getResponsavel().setNomeResponsavel(pacienteDTO.responsavel().getNomeResponsavel());
+                pacienteUpdate.getResponsavel().setCpfResponsavel(pacienteDTO.responsavel().getCpfResponsavel());
+            }
+
+            if (pacienteDTO.profissional() != null && pacienteDTO.profissional().getId() != null) {
+                Optional<Profissional> profissional = profissionalRepository.findById(pacienteDTO.profissional().getId());
+                profissional.ifPresent(pacienteUpdate::setProfissional);
+            }
+
+            Paciente pacienteAtualizado = pacienteRepository.saveAndFlush(pacienteUpdate);
+            System.out.println("✅ Paciente atualizado com sucesso: " + pacienteAtualizado);
+
+            return ResponseEntity.ok(pacienteAtualizado);
+        } catch (Exception e) {
+            System.out.println("❌ ERRO AO ATUALIZAR PACIENTE: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
     }
 
-    public ResponseEntity<Paciente> deletePaciente (@PathVariable Long id) {
-        Paciente pacienteDelete = pacienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Paciente with ID " + id + " not found"));
-        pacienteRepository.delete(pacienteDelete);
-        return ResponseEntity.ok(pacienteDelete);
+    @Transactional
+    public ResponseEntity<Void> deletePaciente(Long id) {
+        try {
+            System.out.println("📌 Tentando deletar paciente com ID: " + id);
+            Paciente pacienteDelete = pacienteRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("❌ Paciente com ID " + id + " não encontrado"));
+
+            pacienteRepository.delete(pacienteDelete);
+            System.out.println("✅ Paciente deletado com sucesso!");
+
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            System.out.println("❌ ERRO AO DELETAR PACIENTE: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
     }
 }

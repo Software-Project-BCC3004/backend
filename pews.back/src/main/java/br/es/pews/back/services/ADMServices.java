@@ -3,7 +3,6 @@ package br.es.pews.back.services;
 import br.es.pews.back.dto.AdmDTO;
 import br.es.pews.back.models.ADM;
 import br.es.pews.back.repository.ADMRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,12 +13,10 @@ public class ADMServices {
 
     private final ADMRepository admRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ModelMapper modelMapper;
 
-    public ADMServices(ADMRepository admRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+    public ADMServices(ADMRepository admRepository, PasswordEncoder passwordEncoder) {
         this.admRepository = admRepository;
         this.passwordEncoder = passwordEncoder;
-        this.modelMapper = modelMapper;
     }
 
     @Transactional
@@ -38,9 +35,18 @@ public class ADMServices {
         ADM admUpdated = admRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("ADM with ID: " + id + " not found"));
 
-        modelMapper.map(admDTO, admUpdated);
-        admRepository.save(admUpdated);
-        return ResponseEntity.ok(admUpdated);
+        // Atualiza manualmente os campos importantes
+        if (admDTO.emailADM() != null && !admDTO.emailADM().isEmpty()) {
+            admUpdated.setEmailADM(admDTO.emailADM());
+        }
+
+        if (admDTO.senhaADM() != null && !admDTO.senhaADM().isEmpty()) {
+            admUpdated.setPassword(passwordEncoder.encode(admDTO.senhaADM()));
+        }
+
+        // Persiste no banco de dados
+        ADM admSaved = admRepository.save(admUpdated);
+        return ResponseEntity.ok(admSaved);
     }
 
     @Transactional
