@@ -26,7 +26,7 @@ public class ProfissionalController {
     @GetMapping("/consultar/todos")
     public ResponseEntity<List<Profissional>> getAllProfissionals() {return profissionalServices.getAllProfissionals();}
 
-    @GetMapping("/consultar/{documento/documento}")
+    @GetMapping("/consultar/documento/{documento}")
     public ResponseEntity<Profissional> getProfissionalByDocumento(@PathVariable Documento documento){
         return profissionalServices.getProfissionalByDocumento(documento);
     }

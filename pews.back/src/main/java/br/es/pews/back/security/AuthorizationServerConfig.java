@@ -23,6 +23,7 @@ public class AuthorizationServerConfig {
     @Bean
     SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         http
+            .securityMatcher("/oauth/**") // Aplica apenas às rotas OAuth
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/pacientes/consultar/**").hasAuthority("SCOPE_paciente:read")

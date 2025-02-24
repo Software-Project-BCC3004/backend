@@ -2,6 +2,7 @@ package br.es.pews.back.security;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.security.PrivateKey;
@@ -13,7 +14,7 @@ public class JwtsService {
     private final PrivateKey privateKey;
 
     @Autowired
-    public JwtsService(PrivateKey privateKey) {
+    public JwtsService(@Qualifier("getPrivateKey") PrivateKey privateKey) {
         this.privateKey = privateKey;
     }
 
