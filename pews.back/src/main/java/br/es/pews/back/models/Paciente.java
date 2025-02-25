@@ -1,6 +1,7 @@
 package br.es.pews.back.models;
 
 import br.es.pews.back.dto.PacienteDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -48,6 +49,7 @@ public class Paciente {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medico_id", nullable = false)
+    @JsonIgnore
     private Profissional profissional;
 
     public Paciente(PacienteDTO pacienteDTO) {
