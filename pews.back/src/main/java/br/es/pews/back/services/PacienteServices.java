@@ -2,8 +2,6 @@ package br.es.pews.back.services;
 
 import br.es.pews.back.dto.PacienteDTO;
 import br.es.pews.back.models.Paciente;
-import br.es.pews.back.models.Profissional;
-import br.es.pews.back.models.Responsavel;
 import br.es.pews.back.repository.PacienteRepository;
 import br.es.pews.back.repository.ProfissionalRepository;
 import jakarta.transaction.Transactional;
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PacienteServices {
@@ -46,14 +43,16 @@ public class PacienteServices {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<List<Paciente>> getPacienteByNomeResponsavel(String nome) {
-        List<Paciente> pacienteResponsavel = pacienteRepository.findByNomeResponsavel(nome);
-        return pacienteResponsavel.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pacienteResponsavel);
+    public ResponseEntity<Paciente> getPacienteByNomeResponsavel (String nomeResponsavel) {
+        return pacienteRepository.findPacienteByNomeResponsavel(nomeResponsavel)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<List<Paciente>> getPacienteByProfissionalOrderByNome(String nome) {
-        List<Paciente> pacienteProfissional = pacienteRepository.findByProfissionalOrderByNome(nome);
-        return pacienteProfissional.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pacienteProfissional);
+    public ResponseEntity<Paciente> getPPacienteByCpfResponsavel (String cpfResponsavel) {
+        return pacienteRepository.findPacienteByNomeResponsavel(cpfResponsavel)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @Transactional
@@ -67,18 +66,8 @@ public class PacienteServices {
             paciente.setDiagnostico(pacienteDTO.diagnostico());
             paciente.setLeito(pacienteDTO.leito());
             paciente.setGrauSeveridade(pacienteDTO.grauSeveridade());
-
-            if (pacienteDTO.responsavel() != null) {
-                paciente.setResponsavel(new Responsavel(
-                        pacienteDTO.responsavel().getNomeResponsavel(),
-                        pacienteDTO.responsavel().getCpfResponsavel()
-                ));
-            }
-
-            if (pacienteDTO.profissional() != null && pacienteDTO.profissional().getId() != null) {
-                Optional<Profissional> profissional = profissionalRepository.findById(pacienteDTO.profissional().getId());
-                profissional.ifPresent(paciente::setProfissional);
-            }
+            paciente.setNomeResponsavel(pacienteDTO.nomeResponsavel());
+            paciente.setCpfResponsavel(pacienteDTO.cpfResponsavel());
 
             Paciente pacienteSalvo = pacienteRepository.saveAndFlush(paciente);
             System.out.println("✅ Paciente salvo: " + pacienteSalvo);
@@ -114,17 +103,13 @@ public class PacienteServices {
             if (pacienteDTO.grauSeveridade() != null && !pacienteDTO.grauSeveridade().isBlank()) {
                 pacienteUpdate.setGrauSeveridade(pacienteDTO.grauSeveridade());
             }
-            if (pacienteDTO.responsavel() != null) {
-                if (pacienteUpdate.getResponsavel() == null) {
-                    pacienteUpdate.setResponsavel(new Responsavel());
-                }
-                pacienteUpdate.getResponsavel().setNomeResponsavel(pacienteDTO.responsavel().getNomeResponsavel());
-                pacienteUpdate.getResponsavel().setCpfResponsavel(pacienteDTO.responsavel().getCpfResponsavel());
+
+            if (pacienteDTO.nomeResponsavel() != null && !pacienteDTO.nomeResponsavel().isBlank()) {
+                pacienteUpdate.setNomeResponsavel(pacienteDTO.nomeResponsavel());
             }
 
-            if (pacienteDTO.profissional() != null && pacienteDTO.profissional().getId() != null) {
-                Optional<Profissional> profissional = profissionalRepository.findById(pacienteDTO.profissional().getId());
-                profissional.ifPresent(pacienteUpdate::setProfissional);
+            if (pacienteDTO.cpfResponsavel() != null && !pacienteDTO.cpfResponsavel().isBlank()) {
+                pacienteUpdate.setCpfResponsavel(pacienteDTO.cpfResponsavel());
             }
 
             Paciente pacienteAtualizado = pacienteRepository.saveAndFlush(pacienteUpdate);

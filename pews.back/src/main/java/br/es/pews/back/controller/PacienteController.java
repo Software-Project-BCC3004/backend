@@ -31,20 +31,19 @@ public class PacienteController {
         return pacienteServices.getPacienteByCPF(cpf);
     }
 
-
     @GetMapping("/consultar/nome/{nome}")
     public ResponseEntity<Paciente> getPacienteByNome(@PathVariable String nome) {
         return pacienteServices.getPacienteByNome(nome);
     }
 
-    @GetMapping("/consultar/responsavel/{nome}")
-    public ResponseEntity<List<Paciente>> getPacienteByNomeResponsavel(@PathVariable String nome) {
-        return pacienteServices.getPacienteByNomeResponsavel(nome);
+    @GetMapping("/consultar/responsavel/nome/{nomeResponsavel}")
+    public ResponseEntity<Paciente> getPacienteByNomeResponsavel(@PathVariable String nomeResponsavel) {
+        return pacienteServices.getPacienteByNomeResponsavel(nomeResponsavel);
     }
 
-    @GetMapping("/consultar/profissional/{nome}")
-    public ResponseEntity<List<Paciente>> getPacienteByProfissionalOrderByNome(@PathVariable String nome) {
-        return pacienteServices.getPacienteByProfissionalOrderByNome(nome);
+    @GetMapping("/consultar/responsavel/nome/{nomeResponsavel}")
+    public ResponseEntity<Paciente> getPPacienteByCpfResponsavel(@PathVariable String cpfResponsavel) {
+        return pacienteServices.getPPacienteByCpfResponsavel(cpfResponsavel);
     }
 
     @PostMapping("/criar")
@@ -58,8 +57,8 @@ public class PacienteController {
     }
 
     @DeleteMapping("/deletar/{id}")
-public ResponseEntity<Void> deletePaciente(@PathVariable Long id) {
-    return pacienteServices.deletePaciente(id);
-}
+    public ResponseEntity<Void> deletePaciente(@PathVariable Long id) {
+        return pacienteServices.deletePaciente(id);
+    }
 
 }

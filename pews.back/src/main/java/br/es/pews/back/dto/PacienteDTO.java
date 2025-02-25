@@ -1,7 +1,5 @@
 package br.es.pews.back.dto;
 
-import br.es.pews.back.models.Profissional;
-import br.es.pews.back.models.Responsavel;
 
 public record PacienteDTO(
         Long id,
@@ -9,7 +7,7 @@ public record PacienteDTO(
         String cpfPaciente,
         String diagnostico,
         String leito,
-        Responsavel responsavel,
-        Profissional profissional,
+        String nomeResponsavel,
+        String cpfResponsavel,
         String grauSeveridade
         ) {}

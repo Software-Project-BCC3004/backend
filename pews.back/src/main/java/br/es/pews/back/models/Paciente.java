@@ -40,13 +40,13 @@ public class Paciente {
     @Column(name = "grauSeveridade", nullable = false)
     private String grauSeveridade;
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "nomeResponsavel", column = @Column(name = "responsavel_nome")),
-            @AttributeOverride(name = "cpfResponsavel", column = @Column(name = "responsavel_cpf"))
-    })
-    private Responsavel responsavel;
+    @Column(name = "nomeResponsavel", nullable = false)
+    private String nomeResponsavel;
 
+    @CPF(message = "CPF inválido")
+    @Column(name = "cpfResponsavel", nullable = false)
+    private String cpfResponsavel;
+  
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medico_id", nullable = false)
     @JsonIgnore
@@ -59,9 +59,9 @@ public class Paciente {
             this.cpfPaciente = pacienteDTO.cpfPaciente();
             this.diagnostico = pacienteDTO.diagnostico();
             this.leito = pacienteDTO.leito();
-            this.responsavel = pacienteDTO.responsavel();
-            this.profissional = pacienteDTO.profissional();
             this.grauSeveridade = pacienteDTO.grauSeveridade();
+            this.nomeResponsavel = pacienteDTO.nomeResponsavel();
+            this.cpfResponsavel = pacienteDTO.cpfResponsavel();
         }
     }
 }
