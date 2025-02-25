@@ -1,7 +1,6 @@
 package br.es.pews.back.services;
 
 import br.es.pews.back.dto.ProfissionalDTO;
-import br.es.pews.back.models.Documento;
 import br.es.pews.back.models.Profissional;
 import br.es.pews.back.repository.ProfissionalRepository;
 import jakarta.validation.Valid;
@@ -37,13 +36,24 @@ public class ProfissionalServices {
         return ResponseEntity.ok(profissionals);
     }
 
-    public ResponseEntity<Profissional> getProfissionalByDocumento(Documento documento) {
-        Optional<Profissional> profissional = profissionalRepository.findProfissionalByDocumento(documento);
-        return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
 
     public ResponseEntity<Profissional> getProfissionalByNome(String nomeProfissional) {
         Optional<Profissional> profissional = profissionalRepository.findByNomeProfissional(nomeProfissional);
+        return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    public ResponseEntity<Profissional> getProfissionalBytipoDocumentoProfissional(String tipoDocumentoProfissional) {
+        Optional<Profissional> profissional = profissionalRepository.findProfissionalBytipoDocumentoProfissional(tipoDocumentoProfissional);
+        return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    public ResponseEntity<Profissional> getProfissionalByNumeroDocumentoProfissional(String numeroDocumentoProfissional) {
+        Optional<Profissional> profissional = profissionalRepository.findProfissionalByNumeroDocumentoProfissional(numeroDocumentoProfissional);
+        return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    public ResponseEntity<Profissional> getProfissionalByEstadoDocumentoProfissional(String estadoDocumentoProfissional) {
+        Optional<Profissional> profissional = profissionalRepository.findProfissionalByNumeroDocumentoProfissional(estadoDocumentoProfissional);
         return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -61,10 +71,18 @@ public class ProfissionalServices {
         Profissional profissionalUpdate = profissionalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Profissional with ID " + id + " not found"));
 
-        // Atualização manual dos campos
-        if (profissionalDTO.documento() != null) {
-            profissionalUpdate.setDocumento(profissionalDTO.documento());
+        if (profissionalDTO.estadoDocumento() != null && !profissionalUpdate.getEstadoDocumento().isBlank()) {
+            profissionalUpdate.setEstadoDocumento(profissionalDTO.estadoDocumento());
         }
+
+        if (profissionalDTO.numeroDocumento() != null && !profissionalUpdate.getNumeroDocumento().isBlank()) {
+            profissionalUpdate.setNumeroDocumento(profissionalDTO.numeroDocumento());
+        }
+
+        if (profissionalDTO.tipoDocumento() != null && !profissionalUpdate.getTipoDocumento().isBlank()) {
+            profissionalUpdate.setTipoDocumento(profissionalDTO.tipoDocumento());
+        }
+
         if (profissionalDTO.nomeProfissional() != null && !profissionalDTO.nomeProfissional().isBlank()) {
             profissionalUpdate.setNomeProfissional(profissionalDTO.nomeProfissional());
         }
@@ -75,7 +93,7 @@ public class ProfissionalServices {
             profissionalUpdate.setEmailprofissional(profissionalDTO.emailprofissional());
         }
         if (profissionalDTO.senhaProfissional() != null && !profissionalDTO.senhaProfissional().isBlank()) {
-            profissionalUpdate.setSenhaProfissional(passwordEncoder.encode(profissionalDTO.senhaProfissional())); // Garante criptografia
+            profissionalUpdate.setSenhaProfissional(passwordEncoder.encode(profissionalDTO.senhaProfissional()));
         }
 
         profissionalRepository.save(profissionalUpdate);

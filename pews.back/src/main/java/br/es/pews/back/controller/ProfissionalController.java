@@ -1,7 +1,6 @@
 package br.es.pews.back.controller;
 
 import br.es.pews.back.dto.ProfissionalDTO;
-import br.es.pews.back.models.Documento;
 import br.es.pews.back.models.Profissional;
 import br.es.pews.back.services.ProfissionalServices;
 import jakarta.validation.Valid;
@@ -26,9 +25,19 @@ public class ProfissionalController {
     @GetMapping("/consultar/todos")
     public ResponseEntity<List<Profissional>> getAllProfissionals() {return profissionalServices.getAllProfissionals();}
 
-    @GetMapping("/consultar/documento/{documento}")
-    public ResponseEntity<Profissional> getProfissionalByDocumento(@PathVariable Documento documento){
-        return profissionalServices.getProfissionalByDocumento(documento);
+    @GetMapping("/consultar/documento/tipo/{tipo}")
+    public ResponseEntity<Profissional> getProfissionalBytipoDocumentoProfissional(@PathVariable String tipoDocumentoProfissional) {
+        return profissionalServices.getProfissionalBytipoDocumentoProfissional(tipoDocumentoProfissional);
+    }
+
+    @GetMapping("/consultar/documento/numero/{numero}")
+    public ResponseEntity<Profissional> getProfissionalByNumeroDocumentoProfissional(@PathVariable String numeroDocumento) {
+        return profissionalServices.getProfissionalByNumeroDocumentoProfissional(numeroDocumento);
+    }
+
+    @GetMapping("/consultar/documento/estado/{estado}")
+    public ResponseEntity<Profissional> getProfissionalByEstadoDocumentoProfissional(@PathVariable String estadoDocumentoProfissional) {
+        return profissionalServices.getProfissionalByEstadoDocumentoProfissional(estadoDocumentoProfissional);
     }
 
     @GetMapping("/consultar/nome/{nome}")

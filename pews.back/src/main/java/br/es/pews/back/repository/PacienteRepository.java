@@ -14,14 +14,11 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
     Optional<Paciente> findByNomePaciente(String nomePaciente);
     Optional<Paciente> findByCpfPaciente(String cpfPaciente);
 
-    @Query("SELECT p FROM Paciente p WHERE p.responsavel.nomeResponsavel =:nome")
-    List<Paciente> findByNomeResponsavel(@Param("nome") String nome);
-
-    @Query("SELECT p FROM Paciente p WHERE LOWER(p.profissional.nomeProfissional) LIKE LOWER(CONCAT('%', :nome, '%')) ORDER BY p.nomePaciente ASC")
-    List<Paciente> findByProfissionalOrderByNome(@Param("nome") String nome);
-
     @Override
     Optional<Paciente> findById(Long id);
     @Override
     List<Paciente> findAll();
+
+    Optional<Paciente> findPacienteByNomeResponsavel(String nomeResponsavel);
+    Optional<Paciente> findPacienteByCpfResponsavel(String cpfResponsavel);
 }
