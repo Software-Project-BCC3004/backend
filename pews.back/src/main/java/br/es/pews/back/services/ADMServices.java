@@ -35,7 +35,7 @@ public class ADMServices {
         ADM admUpdated = admRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("ADM with ID: " + id + " not found"));
 
-        // Atualiza manualmente os campos importantes
+        
         if (admDTO.emailADM() != null && !admDTO.emailADM().isEmpty()) {
             admUpdated.setEmailADM(admDTO.emailADM());
         }

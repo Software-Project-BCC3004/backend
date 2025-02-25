@@ -1,6 +1,7 @@
 package br.es.pews.back.models;
 
 import br.es.pews.back.dto.ProfissionalDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,10 @@ public class Profissional {
     @NotBlank(message = "Estado do documento não pode estar vazio")
     @Column(name = "estadoDocumento", nullable = false)
     private String estadoDocumento;
+
+    @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Paciente> pacientes;
 
     public Profissional (ProfissionalDTO profissionalDTO) {
         this.id = profissionalDTO.id();

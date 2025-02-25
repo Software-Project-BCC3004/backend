@@ -37,10 +37,36 @@ public class ProfissionalServices {
     }
 
 
-    public ResponseEntity<Profissional> getProfissionalByNome(String nomeProfissional) {
-        Optional<Profissional> profissional = profissionalRepository.findByNomeProfissional(nomeProfissional);
+    public ResponseEntity<List<Profissional>> getProfissionaisByPrimeiroNome(String primeiroNome) {
+        List<Profissional> profissionais = profissionalRepository.findByPrimeiroNome(primeiroNome);
+        if (profissionais.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(profissionais);
+    }
+    
+    
+    
+    public ResponseEntity<Profissional> getProfissionalByDocumento(Documento documento) {
+        Optional<Profissional> profissional = profissionalRepository.findProfissionalByDocumento(documento);
         return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+
+    public ResponseEntity<Profissional> getProfissionalByNome(String nomeProfissional) {
+        System.out.println("🔍 Buscando profissional com nome: '" + nomeProfissional + "'");
+    
+        Optional<Profissional> profissional = profissionalRepository.findByNomeProfissional(nomeProfissional);
+    
+        if (profissional.isPresent()) {
+            System.out.println("✅ Profissional encontrado: " + profissional.get().getNomeProfissional());
+        } else {
+            System.out.println("❌ Nenhum profissional encontrado para: '" + nomeProfissional + "'");
+        }
+    
+        return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    
 
     public ResponseEntity<Profissional> getProfissionalBytipoDocumentoProfissional(String tipoDocumentoProfissional) {
         Optional<Profissional> profissional = profissionalRepository.findProfissionalBytipoDocumentoProfissional(tipoDocumentoProfissional);
