@@ -37,13 +37,13 @@ public class PacienteController {
     }
 
     @GetMapping("/consultar/responsavel/nome/{nomeResponsavel}")
-    public ResponseEntity<Paciente> getPacienteByNomeResponsavel(@PathVariable String nomeResponsavel) {
-        return pacienteServices.getPacienteByNomeResponsavel(nomeResponsavel);
+    public ResponseEntity<Paciente> getPacienteByNomeResponsavel(@PathVariable String nome_responsavel) {
+        return pacienteServices.getPacienteByNomeResponsavel(nome_responsavel);
     }
 
-    @GetMapping("/consultar/responsavel/nome/{nomeResponsavel}")
-    public ResponseEntity<Paciente> getPPacienteByCpfResponsavel(@PathVariable String cpfResponsavel) {
-        return pacienteServices.getPPacienteByCpfResponsavel(cpfResponsavel);
+    @GetMapping("/consultar/responsavel/nome/{cpfResponsavel}")
+    public ResponseEntity<Paciente> getPPacienteByCpfResponsavel(@PathVariable String cpf_responsavel) {
+        return pacienteServices.getPPacienteByCpfResponsavel(cpf_responsavel);
     }
 
     @PostMapping("/criar")

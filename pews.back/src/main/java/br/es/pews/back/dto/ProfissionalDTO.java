@@ -5,8 +5,8 @@ public record ProfissionalDTO(
         Long id,
         String nomeProfissional,
         String funcao,
-        String emailprofissional,
-        String senhaProfissional,
+        String email,
+        String senha,
         String numeroDocumento,
         String tipoDocumento,
         String estadoDocumento

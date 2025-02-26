@@ -22,10 +22,11 @@ public class Paciente {
     private Long id;
 
     @NotBlank(message = "Nome não pode estar vazio")
-    @Column(name = "nomePaciente", nullable = false)
+    @Column(name = "nome_paciente", nullable = false)
     private String nomePaciente;
+
     @NotBlank(message = "CPF do paciente não pode estar vazio")
-    @Column(name = "cpfPaciente", unique = true, nullable = false)
+    @Column(name = "cpf_paciente", unique = true, nullable = false)
     @CPF(message = "CPF inválido")
     private String cpfPaciente;
 
@@ -37,14 +38,14 @@ public class Paciente {
     @Column(name = "leito", nullable = false)
     private String leito;
 
-    @Column(name = "grauSeveridade", nullable = false)
+    @Column(name = "grau_severidade", nullable = false)
     private String grauSeveridade;
 
-    @Column(name = "nomeResponsavel", nullable = false)
+    @Column(name = "nome_responsavel", nullable = false)
     private String nomeResponsavel;
 
     @CPF(message = "CPF inválido")
-    @Column(name = "cpfResponsavel", nullable = false)
+    @Column(name = "cpf_responsavel", nullable = false)
     private String cpfResponsavel;
   
     @ManyToOne(fetch = FetchType.LAZY)

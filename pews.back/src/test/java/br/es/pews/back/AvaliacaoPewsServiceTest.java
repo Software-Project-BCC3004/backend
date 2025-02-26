@@ -34,9 +34,9 @@ class AvaliacaoPewsServiceTest {
     @Test
     void calculoPEWStesteSucesso() {
         AvaliacaoPews avaliacaoPews = new AvaliacaoPews();
-        avaliacaoPews.setAvaliacaoNeurologica(Pontuacao.AN2);
-        avaliacaoPews.setAvaliacaoCardiovascular(Pontuacao.AN1);
-        avaliacaoPews.setAvaliacaoRespiratoria(Pontuacao.AN3);
+        avaliacaoPews.setAvaliacao_neurologica(Pontuacao.AN2);
+        avaliacaoPews.setAvaliacao_cardiovascular(Pontuacao.AN1);
+        avaliacaoPews.setAvaliacao_respiratoria(Pontuacao.AN3);
         avaliacaoPews.setEmese(Pontuacao.EmeseSIM);
         avaliacaoPews.setNebulizacao(Pontuacao.EmeseSIM);
 

@@ -1,7 +1,5 @@
 package br.es.pews.back;
 
-import br.es.pews.back.controller.ProfissionalController;
-import br.es.pews.back.models.Documento;
 import br.es.pews.back.models.Profissional;
 import br.es.pews.back.repository.ProfissionalRepository;
 import br.es.pews.back.services.ProfissionalServices;
@@ -14,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -44,15 +41,13 @@ class ProfissionalServicesTest {
     @Test
     void createProfissionalSucesso() {
         Profissional profissional = new Profissional();
-        Documento documento = new Documento(
-                "CRM",
-                "12345",
-                "PR");
         profissional.setId(1L);
-        profissional.setDocumento(documento);
+        profissional.setTipoDocumento("CRM");
+        profissional.setNumeroDocumento("12345");
+        profissional.setEstadoDocumento("PR");
         profissional.setNomeProfissional("nome teste");
         profissional.setFuncao("Médico");
-        profissional.setEmailprofissional("test@test.com");
+        profissional.setEmail("test@test.com");
         profissional.setSenhaProfissional("senha123");
 
         when(passwordEncoder.encode(profissional.getSenhaProfissional())).thenReturn("senhaCodificada");

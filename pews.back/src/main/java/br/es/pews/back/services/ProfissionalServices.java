@@ -68,24 +68,24 @@ public class ProfissionalServices {
     }
     
 
-    public ResponseEntity<Profissional> getProfissionalBytipoDocumentoProfissional(String tipoDocumentoProfissional) {
-        Optional<Profissional> profissional = profissionalRepository.findProfissionalBytipoDocumentoProfissional(tipoDocumentoProfissional);
+    public ResponseEntity<Profissional> getProfissionalByTipoDocumento(String tipoDocumentoProfissional) {
+        Optional<Profissional> profissional = profissionalRepository.findByTipoDocumento(tipoDocumentoProfissional);
         return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<Profissional> getProfissionalByNumeroDocumentoProfissional(String numeroDocumentoProfissional) {
-        Optional<Profissional> profissional = profissionalRepository.findProfissionalByNumeroDocumentoProfissional(numeroDocumentoProfissional);
+    public ResponseEntity<Profissional> getProfissionalByNumeroDocumento(String numeroDocumentoProfissional) {
+        Optional<Profissional> profissional = profissionalRepository.findByNumeroDocumento(numeroDocumentoProfissional);
         return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<Profissional> getProfissionalByEstadoDocumentoProfissional(String estadoDocumentoProfissional) {
-        Optional<Profissional> profissional = profissionalRepository.findProfissionalByNumeroDocumentoProfissional(estadoDocumentoProfissional);
+    public ResponseEntity<Profissional> getProfissionalByEstadoDocumento(String estadoDocumentoProfissional) {
+        Optional<Profissional> profissional = profissionalRepository.findByEstadoDocumento(estadoDocumentoProfissional);
         return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     public ResponseEntity<Profissional> createProfissional(@RequestBody Profissional profissional) {
         try {
-            profissional.setSenhaProfissional(passwordEncoder.encode(profissional.getSenhaProfissional()));
+            profissional.setSenha_profissional(passwordEncoder.encode(profissional.getSenha_profissional()));
             Profissional profissionalSalvo = profissionalRepository.save(profissional);
             return ResponseEntity.ok(profissionalSalvo);
         } catch (Exception e) {
@@ -101,12 +101,12 @@ public class ProfissionalServices {
             profissionalUpdate.setEstadoDocumento(profissionalDTO.estadoDocumento());
         }
 
-        if (profissionalDTO.numeroDocumento() != null && !profissionalUpdate.getNumeroDocumento().isBlank()) {
+        if (profissionalDTO.numeroDocumento() != null && !profissionalDTO.numeroDocumento().isBlank()) {
             profissionalUpdate.setNumeroDocumento(profissionalDTO.numeroDocumento());
         }
 
-        if (profissionalDTO.tipoDocumento() != null && !profissionalUpdate.getTipoDocumento().isBlank()) {
-            profissionalUpdate.setTipoDocumento(profissionalDTO.tipoDocumento());
+        if (profissionalDTO.tipoDocumento() != null && !profissionalDTO.tipoDocumento().isBlank()) {
+            profissionalUpdate.setNomeProfissional(profissionalDTO.tipoDocumento());
         }
 
         if (profissionalDTO.nomeProfissional() != null && !profissionalDTO.nomeProfissional().isBlank()) {
@@ -115,11 +115,11 @@ public class ProfissionalServices {
         if (profissionalDTO.funcao() != null && !profissionalDTO.funcao().isBlank()) {
             profissionalUpdate.setFuncao(profissionalDTO.funcao());
         }
-        if (profissionalDTO.emailprofissional() != null && !profissionalDTO.emailprofissional().isBlank()) {
-            profissionalUpdate.setEmailprofissional(profissionalDTO.emailprofissional());
+        if (profissionalDTO.email() != null && !profissionalDTO.email().isBlank()) {
+            profissionalUpdate.setEmail(profissionalDTO.email());
         }
-        if (profissionalDTO.senhaProfissional() != null && !profissionalDTO.senhaProfissional().isBlank()) {
-            profissionalUpdate.setSenhaProfissional(passwordEncoder.encode(profissionalDTO.senhaProfissional()));
+        if (profissionalDTO.senha() != null && !profissionalDTO.senha().isBlank()) {
+            profissionalUpdate.setSenha_profissional(passwordEncoder.encode(profissionalDTO.senha()));
         }
 
         profissionalRepository.save(profissionalUpdate);

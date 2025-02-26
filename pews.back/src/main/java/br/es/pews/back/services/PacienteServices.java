@@ -44,13 +44,13 @@ public class PacienteServices {
     }
 
     public ResponseEntity<Paciente> getPacienteByNomeResponsavel (String nomeResponsavel) {
-        return pacienteRepository.findPacienteByNomeResponsavel(nomeResponsavel)
+        return pacienteRepository.findByNomeResponsavel(nomeResponsavel)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     public ResponseEntity<Paciente> getPPacienteByCpfResponsavel (String cpfResponsavel) {
-        return pacienteRepository.findPacienteByNomeResponsavel(cpfResponsavel)
+        return pacienteRepository.findByCpfResponsavel(cpfResponsavel)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -67,7 +67,7 @@ public class PacienteServices {
             paciente.setLeito(pacienteDTO.leito());
             paciente.setGrauSeveridade(pacienteDTO.grauSeveridade());
             paciente.setNomeResponsavel(pacienteDTO.nomeResponsavel());
-            paciente.setCpfResponsavel(pacienteDTO.cpfResponsavel());
+            paciente.setCpfResponsavel(pacienteDTO.cpfPaciente());
 
             Paciente pacienteSalvo = pacienteRepository.saveAndFlush(paciente);
             System.out.println("✅ Paciente salvo: " + pacienteSalvo);

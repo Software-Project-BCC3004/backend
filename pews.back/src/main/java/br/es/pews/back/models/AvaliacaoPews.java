@@ -18,13 +18,13 @@ public class AvaliacaoPews {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private Pontuacao avaliacaoNeurologica;
+    private Pontuacao avaliacao_neurologica;
 
     @Enumerated(EnumType.STRING)
-    private Pontuacao avaliacaoCardiovascular;
+    private Pontuacao avaliacao_cardiovascular;
 
     @Enumerated(EnumType.STRING)
-    private Pontuacao avaliacaoRespiratoria;
+    private Pontuacao avaliacao_respiratoria;
 
     @Enumerated(EnumType.STRING)
     private Pontuacao emese;
@@ -34,17 +34,17 @@ public class AvaliacaoPews {
 
     private int pontuacaoTotal;
 
-    @Column(name = "dataPews", nullable = false)
-    private LocalDateTime dataPews;
+    @Column(name = "data_pews", nullable = false)
+    private LocalDateTime data_pews;
 
 
     @PrePersist
     @PreUpdate
     public void calcularPontuacao() {
         this.pontuacaoTotal =
-                (avaliacaoNeurologica != null ? avaliacaoNeurologica.getScore() : 0) +
-                        (avaliacaoCardiovascular != null ? avaliacaoCardiovascular.getScore() : 0) +
-                        (avaliacaoRespiratoria != null ? avaliacaoRespiratoria.getScore() : 0) +
+                (avaliacao_neurologica != null ? avaliacao_neurologica.getScore() : 0) +
+                        (avaliacao_cardiovascular != null ? avaliacao_cardiovascular.getScore() : 0) +
+                        (avaliacao_respiratoria != null ? avaliacao_respiratoria.getScore() : 0) +
                         (emese != null ? emese.getScore() : 0) +
                         (nebulizacao != null ? nebulizacao.getScore() : 0);
     }
