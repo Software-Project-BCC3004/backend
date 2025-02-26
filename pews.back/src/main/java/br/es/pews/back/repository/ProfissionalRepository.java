@@ -2,6 +2,7 @@ package br.es.pews.back.repository;
 
 import br.es.pews.back.models.Profissional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProfissionalRepository extends JpaRepository<Profissional, Long> {
+    @Query("SELECT p FROM Profissional p WHERE LOWER(p.nomeProfissional) LIKE LOWER(CONCAT(:nomeProfissional, '%'))")
     Optional<Profissional> findByNomeProfissional(String nomeProfissional);
 
     @Query("SELECT p FROM Profissional p WHERE p.nomeProfissional ILIKE :nome")
@@ -25,8 +27,8 @@ public interface ProfissionalRepository extends JpaRepository<Profissional, Long
 
     Optional<Profissional> findByEmail(String email);
 
-    Optional<Profissional> findByTipoDocumento(String tipo_documento);
-    Optional<Profissional> findByNumeroDocumento(String numero_documento);
+    Optional<Profissional> findByTipoDocumento(String tipoDocumento);
+    Optional<Profissional> findByNumeroDocumento(String numeroDocumento);
     Optional<Profissional> findByEstadoDocumento(String estado_documento);
 
     Optional<Profissional> findProfissionalBytipoDocumentoProfissional(String tipoDocumentoProfissional);

@@ -26,24 +26,24 @@ public class PacienteController {
         return pacienteServices.getAllPacientes();
     }
 
-    @GetMapping("/consultar/cpf/{cpf}")
-    public ResponseEntity<Paciente> getPacienteByCPF(@PathVariable String cpf) {
-        return pacienteServices.getPacienteByCPF(cpf);
+    @GetMapping("/consultar/cpf/{cpfPaciente}")
+    public ResponseEntity<Paciente> getPacienteByCPF(@PathVariable String cpfPaciente) {
+        return pacienteServices.getPacienteByCPF(cpfPaciente);
     }
 
-    @GetMapping("/consultar/nome/{nome}")
-    public ResponseEntity<Paciente> getPacienteByNome(@PathVariable String nome) {
-        return pacienteServices.getPacienteByNome(nome);
+    @GetMapping("/consultar/nome/{nomePaciente}")
+    public ResponseEntity<Paciente> getPacienteByNome(@PathVariable String nomePaciente) {
+        return pacienteServices.getPacienteByNome(nomePaciente);
     }
 
     @GetMapping("/consultar/responsavel/nome/{nomeResponsavel}")
-    public ResponseEntity<Paciente> getPacienteByNomeResponsavel(@PathVariable String nome_responsavel) {
-        return pacienteServices.getPacienteByNomeResponsavel(nome_responsavel);
+    public ResponseEntity<Paciente> getPacienteByNomeResponsavel(@PathVariable String nomeResponsavel) {
+        return pacienteServices.getPacienteByNomeResponsavel(nomeResponsavel);
     }
 
-    @GetMapping("/consultar/responsavel/nome/{cpfResponsavel}")
-    public ResponseEntity<Paciente> getPPacienteByCpfResponsavel(@PathVariable String cpf_responsavel) {
-        return pacienteServices.getPPacienteByCpfResponsavel(cpf_responsavel);
+    @GetMapping("/consultar/responsavel/cpf/{cpfResponsavel}")
+    public ResponseEntity<Paciente> getPacienteByCpfResponsavel(@PathVariable String cpfResponsavel) {
+        return pacienteServices.getPacienteByCpfResponsavel(cpfResponsavel);
     }
 
     @PostMapping("/criar")

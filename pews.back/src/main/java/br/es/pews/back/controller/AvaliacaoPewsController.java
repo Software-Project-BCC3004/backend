@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/avalicao/pews")
+@RequestMapping("/avaliacao/pews")
 public class AvaliacaoPewsController {
 
     @Autowired
@@ -32,5 +32,15 @@ public class AvaliacaoPewsController {
         return services.findPontuacaoById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<AvaliacaoPews> atualizar (@PathVariable Long id, @RequestBody AvaliacaoPews avaliacaoPews) {
+        return services.atualizarAvaliaacao(id, avaliacaoPews);
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<AvaliacaoPews> deletar(@PathVariable Long id) {
+        return services.deletarAvaliaacao(id);
     }
 }

@@ -30,14 +30,14 @@ public class ADMController {
 
    @DeleteMapping("/delete/{id}")
    @PreAuthorize("hasAnyAuthority('ADMIN')")
-public ResponseEntity<?> deleteADM(@PathVariable("id") Long id) {
-    try {
-        return admServices.delete(id);
-    } catch (Exception e) {
-        e.printStackTrace(); // Log the full stack trace
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body("Error: " + e.getMessage());
-    }
+    public ResponseEntity<?> deleteADM(@PathVariable("id") Long id) {
+        try {
+            return admServices.delete(id);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the full stack trace
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error: " + e.getMessage());
+        }
 }
     
 

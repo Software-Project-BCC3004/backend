@@ -31,19 +31,19 @@ public class ProfissionalController {
     @GetMapping("/consultar/todos")
     public ResponseEntity<List<Profissional>> getAllProfissionals() {return profissionalServices.getAllProfissionals();}
 
-    @GetMapping("/consultar/documento/tipo/{tipo}")
-    public ResponseEntity<Profissional> getProfissionalByTipoDocumento(@PathVariable String tipo_documento) {
-        return profissionalServices.getProfissionalByTipoDocumento(tipo_documento);
+    @GetMapping("/consultar/documento/tipo/{tipoDocumento}")
+    public ResponseEntity<Profissional> getProfissionalByTipoDocumento(@PathVariable String tipoDocumento) {
+        return profissionalServices.getProfissionalByTipoDocumento(tipoDocumento);
     }
 
-    @GetMapping("/consultar/documento/numero/{numero}")
-    public ResponseEntity<Profissional> getProfissionalByNumeroDocumentoProfissional(@PathVariable String numero_documento) {
-        return profissionalServices.getProfissionalByNumeroDocumento(numero_documento);
+    @GetMapping("/consultar/documento/numero/{numeroDocumento}")
+    public ResponseEntity<Profissional> getProfissionalByNumeroDocumentoProfissional(@PathVariable String numeroDocumento) {
+        return profissionalServices.getProfissionalByNumeroDocumento(numeroDocumento);
     }
 
-    @GetMapping("/consultar/documento/estado/{estado}")
-    public ResponseEntity<Profissional> getProfissionalByEstadoDocumentoProfissional(@PathVariable String estado_documento) {
-        return profissionalServices.getProfissionalByEstadoDocumento(estado_documento);
+    @GetMapping("/consultar/documento/estado/{estadoDocumento}")
+    public ResponseEntity<Profissional> getProfissionalByEstadoDocumentoProfissional(@PathVariable String estadoDocumento) {
+        return profissionalServices.getProfissionalByEstadoDocumento(estadoDocumento);
     }
 
     @GetMapping("/consultar/nome")
