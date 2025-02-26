@@ -13,11 +13,13 @@ public class ResourceServerConfig {
     @Bean
     SecurityFilterChain resourceServerSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-            .securityMatcher("/api/**") // Aplica apenas às rotas da API
+            .securityMatcher("/admin/**", "/profissional/**")
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/admin/**", "/profissional/**").hasRole("ADMIN")
+                        .requestMatchers("/profissional").hasRole("PROFISSIONAL"))
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
-            .authorizeHttpRequests(auth -> auth.anyRequest().authenticated());
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
 
         return http.build();
     }
