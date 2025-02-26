@@ -18,16 +18,16 @@ import java.util.Base64;
 @Slf4j
 public class SecurityConfig {
 
-    @Value("${jwt.public-key-path:#{null}}")
+    @Value("${security.jwt.public-key-path}")
     private String publicKeyPath;
 
     @PostConstruct
     public void init() {
-        if (publicKeyPath == null) {
+        if (publicKeyPath == null || publicKeyPath.isBlank()) {
             log.error("🚨 ERRO: Caminho da chave pública não está definido corretamente!");
             throw new IllegalStateException("Caminho da chave pública JWT não configurado.");
         }
-        log.info("🔍 Caminho da chave pública: {}", publicKeyPath);
+        log.info("🔍 Caminho da chave pública configurado: {}", publicKeyPath);
     }
 
     @Bean
@@ -37,13 +37,13 @@ public class SecurityConfig {
 
     private PublicKey loadPublicKey(String path) {
         try {
-            log.info("🔍 Carregando chave pública de {}", path);
+            log.info("🔍 Tentando carregar a chave pública de: {}", path);
             String keyContent = readKeyFile(path);
             byte[] keyBytes = Base64.getDecoder().decode(keyContent);
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
             return KeyFactory.getInstance("RSA").generatePublic(keySpec);
         } catch (Exception e) {
-            log.error("🚨 ERRO ao carregar a chave pública!", e);
+            log.error("🚨 ERRO ao carregar a chave pública de {}", path, e);
             throw new IllegalStateException("Erro ao carregar chave pública", e);
         }
     }
@@ -51,12 +51,12 @@ public class SecurityConfig {
     private String readKeyFile(String path) throws IOException {
         Path filePath = Path.of(path);
         if (!Files.exists(filePath)) {
-            log.error("🚨 ERRO: Arquivo não encontrado em {}", path);
-            throw new IllegalStateException("Arquivo da chave não encontrado: " + path);
+            log.error("🚨 ERRO: Arquivo da chave pública não encontrado em {}", path);
+            throw new IllegalStateException("Arquivo da chave pública não encontrado: " + path);
         }
         return Files.readString(filePath)
-                .replaceAll("-----BEGIN PUBLIC KEY-----", "")
-                .replaceAll("-----END PUBLIC KEY-----", "")
+                .replace("-----BEGIN PUBLIC KEY-----", "")
+                .replace("-----END PUBLIC KEY-----", "")
                 .replaceAll("\\s+", "");
     }
 }

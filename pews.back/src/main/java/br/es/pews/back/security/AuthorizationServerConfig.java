@@ -23,41 +23,48 @@ public class AuthorizationServerConfig {
     @Bean
     SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-            .securityMatcher("/oauth/**")
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/pacientes/consultar/**").hasAuthority("SCOPE_paciente:read")
-                .requestMatchers("/pacientes/criar").hasAuthority("SCOPE_paciente:write")
-                .requestMatchers("/pacientes/atualizar/**").hasAuthority("SCOPE_paciente:write")
-                .requestMatchers("/pacientes/deletar/**").hasAuthority("SCOPE_paciente:write")
-                .requestMatchers("/profissional/consultar/**").hasAuthority("SCOPE_profissional:read")
-                .requestMatchers("/profissional/criar").hasAuthority("SCOPE_profissional:write")
-                .requestMatchers("/profissional/atualizar/**").hasAuthority("SCOPE_profissional:write")
-                .requestMatchers("/profissional/deletar/**").hasAuthority("SCOPE_profissional:write")
-                .anyRequest().authenticated()
-            )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> authorize
+                        // ADMIN pode tudo
+                        .requestMatchers("/adm/**").hasRole("ADMIN")
+                        .requestMatchers("/auth/adm/**").hasRole("ADMIN")
+
+                        // PROFISSIONAL pode gerenciar Pacientes e PEWS
+                        .requestMatchers("/pacientes/**").hasRole("PROFISSIONAL")
+                        .requestMatchers("/avalicao/pews/**").hasRole("PROFISSIONAL")
+                        .requestMatchers("/auth/profissional/login").hasRole("PROFISSIONAL")
+
+                        // Qualquer outra requisição precisa estar autenticada
+                        .anyRequest().authenticated()
+                )
+                .securityMatcher("/oauth");
 
         return http.build();
     }
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("client_id")
-            .clientSecret(passwordEncoder().encode("client_secret"))
-            .authorizationGrantTypes(grantTypes -> {
-                grantTypes.add(AuthorizationGrantType.AUTHORIZATION_CODE);
-                grantTypes.add(AuthorizationGrantType.REFRESH_TOKEN);
-            })
-            .redirectUri("http://localhost:8080/login/oauth2/code/my_client")
-            .scope("paciente:read")
-            .scope("paciente:write")
-            .scope("profissional:read")
-            .scope("profissional:write")
-            .build();
+        RegisteredClient adminClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("admin_client")
+                .clientSecret(passwordEncoder().encode("admin_secret"))
+                .authorizationGrantTypes(grantTypes -> {
+                    grantTypes.add(AuthorizationGrantType.CLIENT_CREDENTIALS);
+                    grantTypes.add(AuthorizationGrantType.REFRESH_TOKEN);
+                })
+                .scope("ROLE_ADMIN")
+                .build();
 
-        return new InMemoryRegisteredClientRepository(List.of(registeredClient));
+        RegisteredClient profissionalClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("profissional_client")
+                .clientSecret(passwordEncoder().encode("profissional_secret"))
+                .authorizationGrantTypes(grantTypes -> {
+                    grantTypes.add(AuthorizationGrantType.CLIENT_CREDENTIALS);
+                    grantTypes.add(AuthorizationGrantType.REFRESH_TOKEN);
+                })
+                .scope("ROLE_PROFISSIONAL")
+                .build();
+
+        return new InMemoryRegisteredClientRepository(List.of(adminClient, profissionalClient));
     }
 
     @Bean
@@ -68,7 +75,7 @@ public class AuthorizationServerConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-            .issuer("http://localhost:9000")
-            .build();
+                .issuer("http://localhost:9000")
+                .build();
     }
 }
