@@ -38,6 +38,10 @@ public class ADMServices {
         // Atualiza manualmente os campos importantes
         if (admDTO.email() != null && !admDTO.email().isEmpty()) {
             admUpdated.setEmail(admDTO.email());
+        
+        if (admDTO.emailADM() != null && !admDTO.emailADM().isEmpty()) {
+            admUpdated.setEmailADM(admDTO.emailADM());
+
         }
 
         if (admDTO.senha() != null && !admDTO.senha().isEmpty()) {

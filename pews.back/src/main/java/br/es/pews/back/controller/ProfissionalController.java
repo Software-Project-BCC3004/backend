@@ -22,6 +22,12 @@ public class ProfissionalController {
         return profissionalServices.getProfissionalById(id);
     }
 
+    @GetMapping("/consultar/nome/inicial/{nome}")
+    public ResponseEntity<List<Profissional>> getProfissionaisByPrimeiroNome(@PathVariable String nome) {
+        return profissionalServices.getProfissionaisByPrimeiroNome(nome);
+    }
+
+
     @GetMapping("/consultar/todos")
     public ResponseEntity<List<Profissional>> getAllProfissionals() {return profissionalServices.getAllProfissionals();}
 
@@ -40,10 +46,11 @@ public class ProfissionalController {
         return profissionalServices.getProfissionalByEstadoDocumento(estado_documento);
     }
 
-    @GetMapping("/consultar/nome/{nome}")
-    public ResponseEntity<Profissional> getProfissionalByNome(@PathVariable String nome){
-        return profissionalServices.getProfissionalByNome(nome);
-    }
+    @GetMapping("/consultar/nome")
+public ResponseEntity<Profissional> getProfissionalByNome(@RequestParam String nome) {
+    return profissionalServices.getProfissionalByNome(nome);
+}
+
 
     @PostMapping("/criar")
     public ResponseEntity<Profissional> createProfissional(@RequestBody Profissional profissional){

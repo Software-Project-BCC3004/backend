@@ -1,6 +1,7 @@
 package br.es.pews.back.models;
 
 import br.es.pews.back.dto.ProfissionalDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -59,6 +60,15 @@ public class Profissional {
 
     public Profissional(ProfissionalDTO profissionalDTO) {
         this.nomeProfissional = profissionalDTO.nomeProfissional();
+
+    @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Paciente> pacientes;
+
+    public Profissional (ProfissionalDTO profissionalDTO) {
+        this.id = profissionalDTO.id();
+        this.numeroDocumento = profissionalDTO.numeroDocumento();
+
         this.tipoDocumento = profissionalDTO.tipoDocumento();
         this.estadoDocumento = profissionalDTO.estadoDocumento();
         this.numeroDocumento = profissionalDTO.numeroDocumento();
