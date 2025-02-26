@@ -5,27 +5,28 @@
 ### Rota Base: `/adm`
 
 ### Endpoints:
-- `POST /criar` - Cria um novo administrador (Requer permissão ADMIN).
+- `POST /criar` - Cria um novo administrador.
+  - `URL: localhost:8080/adm/criar`
+  ```json
+  {
+  "email": "admin@email.com",
+  "senha": "senha123"
+  }
   ```
-    curl -v -X POST http://localhost:8080/adm/criar \
-     -H "Content-Type: application/json" \
-     -H "Authorization: Bearer SEU_NOVO_TOKEN_JWT" \
-     --data-raw '{
-           "emailADM": "admin@email.com",
-           "senhadADM": "SenhaSegura123"
-     }'
+- `PUT /atualizar/{id}` - Atualiza um administrador existente pelo ID.
+  -  `URL: localhost:8080/adm/atualizar/1`
+  ```json
+  {
+  "email": "admin@email.com",
+  "senha": "senha12345"
+  }
   ```
-- `PUT /atualizar/{id}` - Atualiza um administrador existente pelo ID (Requer permissão ADMIN).
-  ```
-    curl -X PUT "http://localhost:8080/adm/atualizar/{id} \
-     -H "Content-Type: application/json" \
-     -d '{
-       "emailADM": "adminnovo@email"
-     }'
-  ```
-- `DELETE /delete/{id}` - Remove um administrador pelo ID (Requer permissão ADMIN).
-  ```
-    curl -X DELETE "http://localhost:8080/adm/delete/{id}"
+- `DELETE /delete/{id}` - Remove um administrador pelo ID.
+  - `URL: localhost:8080/adm/deletar/1`
+  ```json
+  {
+  }
+  Precisa de um token do Admin.
   ```
 ---
 
@@ -35,13 +36,12 @@
 
 ### Endpoints:
 - `POST /login` - Autentica um administrador e retorna um token JWT.
-  ```
-    curl -X POST http://localhost:8080/auth/adm/login \
-     -H "Content-Type: application/json" \
-     --data-raw '{
-           "email": "admin@email.com",
-           "senha": "SenhaSegura123"
-     }`
+  - `URL: localhost:8080/auth/adm/login`
+  ```json
+  {
+    "email": "admin@email.com",
+    "senha": "senha123"
+  }
   ```
 ---
 
@@ -51,61 +51,53 @@
 
 ### Endpoints:
 - `GET /consultar/{id}` - Busca um profissional pelo ID.
-  ```
-    curl -X GET http://localhost:8080/profissional/consultar/{id}
-  ```
+  - `URL: localhost:8080/profissional/consultar/{id}`
+
 - `GET /consultar/todos` - Lista todos os profissionais.
-  ```
-    curl -X GET http://localhost:8080/profissional/consultar/todos
-  ```
-- `GET /consultar/documento/{documento}` - Busca um profissional pelo documento.
-  ```
-    curl -X GET "http://localhost:8080/profissional/consultar/documento" \
-     -H "Content-Type: application/json" \
-     -d '{"numeroDocumento": "12345678900", "tipoDocumento": "CRM", "estadoDocumento": "SP"}'
-  ```
-- `GET /consultar/nome/{nome}` - Busca um profissional pelo nome.
-  ```
-    curl -G --data-urlencode "nome=João da Silva Ferreiro" "http://localhost:8080/profissional/consultar/nome"
-  ```
+  - `URL: localhost:8080/profissional/consultar/todos`
+
+- `GET /consultar/documento/` - Busca um profissional pelo documento.
+  - localhost:8080/profissional/consultar/documento/tipo/{tipoDocumento}
+  - localhost:8080/profissional/consultar/documento/numero/{numeroDocumento}
+  - localhost:8080/profissional/consultar/documento/estado/{estadoDocumento}
+
+- `GET /consultar/nome/{nomeProfissional}` - Busca um profissional pelo nome.
+  - `URL: localhost:8080/pacientes/consultar/nome/Carlos`
+
 - `POST /criar` - Cadastra um novo profissional.
-  ```
-    curl -X POST "http://localhost:8080/profissional/criar" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "documento": {
-         "numeroDocumento": "987654321",
-         "tipoDocumento": "CRM",
-         "estadoDocumento": "RJ"
-       },
-       "nomeProfissional": "Carlos Eduardo",
-       "funcao": "Enfermeiro",
-       "emailprofissional": "carlos.eduardo@example.com",
-       "senhaProfissional": "senhaForte456"
-     }'
+  - `URL: localhost:8080/pacientes/criar`
+  ```json
+  {
+    "nomeProfissional": "João Neto",
+    "funcao": "Médico",
+    "email": "medico@email.com",
+    "senha": "senha12345",
+    "numeroDocumento": "123",
+    "tipoDocumento": "CRM",
+    "estadoDocumento": "RJ"
+  }
+  Precisa de um token do Admin.
   ```
 - `PUT /atualizar/{id}` - Atualiza os dados de um profissional.
-  ```
-    curl -X PUT "http://localhost:8080/profissional/atualizar/{id}" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "id": 4,
-       "documento": {
-         "numeroDocumento": "987654321",
-         "tipoDocumento": "CRM",
-         "estadoDocumento": "PR"
-       },
-       "nomeProfissional": "João da Silva Ferreiro",
-       "funcao": "Cirurgião",
-       "pacientes": [],
-       "emailprofissional": "joao.silva.souza@example.com",
-       "senhaProfissional": "novaSenhaSegura123"
-     }'
+  - `URL: localhost:8080/profissional/atualizar/{id}`
+  ```json
+  {
+    "nomeProfissional": "João Silva",
+    "funcao": "Médico",
+    "email": "joao@email.com",
+    "senhaProfissional": "senha123",
+    "numeroDocumento": "123456",
+    "tipoDocumento": "CRM",
+    "estadoDocumento": "RJ"
+  }
+  Precisa de um token do Admin.
   ```
 - `DELETE /deletar/{id}` - Remove um profissional do sistema.
-  ```
-    curl -X DELETE http://localhost:8080/profissional/deletar/{id} \
-     -H "Authorization: Bearer SEU_TOKEN_AQUI"
+  - `URL: localhost:8080/profissional/deletar/{id}`
+  ```json
+  {
+  }
+  Precisa de um token do Admin.
   ```
 
 ## 4. AuthProfissionalController
@@ -116,13 +108,12 @@ Gerencia a autenticação dos profissionais.
 
 ### Endpoints:
 - `POST /login` - Autentica um profissional e retorna um token JWT.
-  ```
-    curl -X POST "http://localhost:8080/auth/profissional/login" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "email": "joao.silva.souza@example.com",
-       "senha": "novaSenhaSegura123"
-     }'
+  - `URL: localhost:8080/auth/profissional/login`
+  ```json
+  {
+    "email": "joao@email.com",
+    "senhaProfissional": "senha123"
+  }
   ```
 
 ---
@@ -133,58 +124,52 @@ Gerencia a autenticação dos profissionais.
 
 ### Endpoints:
 - `GET /consultar/{id}` - Busca um paciente pelo ID.
-  ```
-    curl -X GET http://localhost:8080/pacientes/consultar/{id}
-  ```
+  - `URL: localhost:8080/pacientes/consultar/{id}`
 - `GET /consultar/todos` - Lista todos os pacientes.
-- `GET /consultar/cpf/{cpf}` - Busca um paciente pelo CPF.
+  - `URL: localhost:8080/pacientes/consultar/todos`  
+- `GET /consultar/cpf/{cpfPaciente}` - Busca um paciente pelo CPF.
+  - `URL: localhost:8080/pacientes/consultar/cpf/{cpfPaciente}
 - `GET /consultar/nome/{nome}` - Busca um paciente pelo nome.
-- `GET /consultar/responsavel/{nome}` - Lista pacientes por nome do responsável.
-- `GET /consultar/profissional/{nome}` - Lista pacientes atendidos por um profissional.
+  - `URL: localhost:8080/pacientes/consultar/nome/{nomePaciente}`
+- `GET /consultar/responsavel/{nomeResponsavel}` - Lista paciente pelo nome do responsável.
+  -`URL: localhost:8080/pacientes/consultar/responsavel/nome/{nomeResponsavel}`  
+- `GET /consultar/responsavel/cpf/{cpfResponsavel}` - Lista paciente pelo CPF do responsável.
+  - `URL: localhost:8080/pacientes/consultar/responsavel/cpf/{cpfResponsavel}`
+ 
 - `POST /criar` - Cria um novo paciente.
-  ```
-    curl -X POST "http://localhost:8080/pacientes/criar" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "nomePaciente": "João Oliveira",
-       "cpfPaciente": "52998224725", 
-       "diagnostico": "Hipertensão",
-       "leito": "A10",
-       "grauSeveridade": "Moderado",
-       "responsavel": {
-         "nomeResponsavel": "Maria Oliveira",
-         "cpfResponsavel": "98765432100"
-       },
-       "profissional": {
-         "id": 4 (precisa de um ID de um médico criado)
-       }
-     }'
+  - `URL: localhost:8080/pacientes/criar`
+  ```json
+  {
+    "nomePaciente": "Carlos Silva",
+    "cpfPaciente": "529.982.247-25",
+    "diagnostico": "Pneumonia",
+    "leito": "A12",
+    "grauSeveridade": "Moderado",
+    "nomeResponsavel": "Maria Silva",
+    "cpfResponsavel": "286.241.320-60"
+  }
+  Precisa de um token do Admin ou do Profissional.
   ```
 - `PUT /atualizar/{id}` - Atualiza os dados de um paciente.
-  ```
-    curl -X PUT "http://localhost:8080/pacientes/atualizar/8" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "nomePaciente": "Eduardo Lima",
-       "cpfPaciente": "98765432100", 
-       "diagnostico": "Bronquite",
-       "leito": "C15",
-       "grauSeveridade": "Grave",
-       "responsavel": {
-         "nomeResponsavel": "Roberto Lima",
-         "cpfResponsavel": "22334455667"
-       },
-       "profissional": {
-         "id": 4 (precisa de um ID de um médico criado)
-       }
-     }'
+  - `URL: localhost:8080/pacientes/atualizar/{id}`
+  ```json
+  {
+    "nomePaciente": "Carlos Silva",
+    "cpfPaciente": "529.982.247-25",
+    "diagnostico": "Pneumonia",
+    "leito": "A13",
+    "grauSeveridade": "Moderado",
+    "nomeResponsavel": "Maria Silva",
+    "cpfResponsavel": "123.456.789-09" // tem que ser um CPF válido
+  }
+  Precisa de um token do Admin ou do Profissional.
   ```
 - `DELETE /deletar/{id}` - Remove um paciente do sistema.
+  - `URL: localhost:8080/pacientes/deletar/{id}`
   ```
-    curl -X DELETE "http://localhost:8080/pacientes/deletar/9{id} \
-     -H "Authorization: Bearer INSIRA_SEU_TOKEN_JWT_AQUI" \
-     -H "Content-Type: application/json" \
-     -v
+  {
+  }
+  Precisa de um token do Admin ou do Profissional.
   ```
 
 ---
@@ -195,22 +180,39 @@ Gerencia a autenticação dos profissionais.
 
 ### Endpoints:
 - `POST /criar` - Cria uma nova avaliação PEWS.
+  - `URL: localhost:8080/avaliacao/pews/criar`
+  ```json
+  {
+      "avaliacao_neurologica": "AN2",
+      "avaliacao_cardiovascular": "AC1",
+      "avaliacao_respiratoria": "AR3",
+      "emese": "EmeseSIM",
+      "nebulizacao": "NebulisacaoNAO",
+      "pontuacaoTotal": 8,
+      "data_pews": "2025-02-26T15:30:00"
+  }
   ```
-    curl -X POST http://localhost:8080/avalicao/pews/criar \
-     -H "Content-Type: application/json" \
-     -d '{
-           "avaliacaoNeurologica": "AN2",
-           "avaliacaoCardiovascular": "AC1",
-           "avaliacaoRespiratoria": "AR3",
-           "emese": "EmeseSIM",
-           "nebulizacao": "NebulisacaoNAO"
-         }'
-  ```
-- `GET /listar` - Retorna a lista de avaliações ordenadas por pontuação.
-  ```
-    curl -X GET http://localhost:8080/avalicao/pews/listar
-  ```
+- `GET /listar` - Retorna a lista de avaliações.
+  -`URL: localhost:8080/avaliacao/pews/listar`
+
 - `GET /{id}` - Busca uma avaliação PEWS pelo ID.
+  -`URL: localhost:8080/avaliacao/pews/1`
+
+- `PUT /atualizar`- Atualiza uma avaliação PEWS.
+  - `URL: localhost:8080/avaliacao/pews/atualizar/{id}`
+  ```json
+    {
+    "avaliacao_neurologica": "AN1",
+    "avaliacao_cardiovascular": "AC1",
+    "avaliacao_respiratoria": "AR3",
+    "emese": "EmeseSIM",
+    "nebulizacao": "NebulisacaoNAO",
+    "pontuacaoTotal": 8,
+    "data_pews": "2025-02-26T15:30:00"
+  }
+- `DELETE /deletar`- Deleta uma avaliação PEWS.
+```
+  {
+  }
   ```
-    curl -X GET http://localhost:8080/avalicao/pews/{id}
----
+
