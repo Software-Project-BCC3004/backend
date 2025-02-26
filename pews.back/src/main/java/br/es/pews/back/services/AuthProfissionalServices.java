@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @Setter
@@ -27,11 +29,12 @@ public class AuthProfissionalServices {
 
     public String login(LoginDTO loginDTO) {
         Profissional profissional = profissionalRepository.findByEmail(loginDTO.email())
-                .orElseThrow(()-> new RuntimeException("Credenciais incorretas"));
+                .orElseThrow(() -> new RuntimeException("Credenciais incorretas"));
 
         if (!passwordEncoder.matches(loginDTO.senha(), profissional.getSenha_profissional())) {
-           throw new RuntimeException("Senha incorreta");
+            throw new RuntimeException("Senha incorreta");
         }
-        return jwtsService.generateToken(profissional.getEmail());
+
+        return jwtsService.generateToken(profissional.getEmail(), List.of("ROLE_PROFISSIONAL"));
     }
 }

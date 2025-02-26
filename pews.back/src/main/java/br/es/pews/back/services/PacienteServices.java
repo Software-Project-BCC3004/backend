@@ -31,8 +31,8 @@ public class PacienteServices {
         return pacientes.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pacientes);
     }
 
-    public ResponseEntity<Paciente> getPacienteByCPF(String cpf) {
-        return pacienteRepository.findByCpfPaciente(cpf)
+    public ResponseEntity<Paciente> getPacienteByCPF(String cpfPaciente) {
+        return pacienteRepository.findByCpfPaciente(cpfPaciente)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -49,7 +49,7 @@ public class PacienteServices {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<Paciente> getPPacienteByCpfResponsavel (String cpfResponsavel) {
+    public ResponseEntity<Paciente> getPacienteByCpfResponsavel (String cpfResponsavel) {
         return pacienteRepository.findByCpfResponsavel(cpfResponsavel)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -67,7 +67,7 @@ public class PacienteServices {
             paciente.setLeito(pacienteDTO.leito());
             paciente.setGrauSeveridade(pacienteDTO.grauSeveridade());
             paciente.setNomeResponsavel(pacienteDTO.nomeResponsavel());
-            paciente.setCpfResponsavel(pacienteDTO.cpfPaciente());
+            paciente.setCpfResponsavel(pacienteDTO.cpfResponsavel());
 
             Paciente pacienteSalvo = pacienteRepository.saveAndFlush(paciente);
             System.out.println("✅ Paciente salvo: " + pacienteSalvo);

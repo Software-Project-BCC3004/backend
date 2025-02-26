@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Getter
 @Setter
@@ -29,11 +31,11 @@ public class AuthADMServices {
         ADM adm = admRepository.findByEmail(loginDTO.email())
                 .orElseThrow(() -> new RuntimeException("Credenciais incorretas"));
 
-        
+
         if (!passwordEncoder.matches(loginDTO.senha(), adm.getSenha_adm())) {
             throw new RuntimeException("Senha incorreta");
         }
 
-        return jwtsService.generateToken(adm.getEmail());
+        return jwtsService.generateToken(adm.getEmail(), List.of("ROLE_ADMIN"));
     }
 }

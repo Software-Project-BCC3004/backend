@@ -48,9 +48,9 @@ class ProfissionalServicesTest {
         profissional.setNomeProfissional("nome teste");
         profissional.setFuncao("Médico");
         profissional.setEmail("test@test.com");
-        profissional.setSenhaProfissional("senha123");
+        profissional.setSenha_profissional("senha123");
 
-        when(passwordEncoder.encode(profissional.getSenhaProfissional())).thenReturn("senhaCodificada");
+        when(passwordEncoder.encode(profissional.getSenha_profissional())).thenReturn("senhaCodificada");
 
         when(profissionalRepository.save(any(Profissional.class))).thenReturn(profissional);
         System.out.println("Profissional antes de salvar: " + profissional);

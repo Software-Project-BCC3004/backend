@@ -1,10 +1,11 @@
+
 package br.es.pews.back.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -21,26 +22,16 @@ import java.util.UUID;
 public class AuthorizationServerConfig {
 
     @Bean
-    SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
-                        // ADMIN pode tudo
-                        .requestMatchers("/adm/**").hasRole("ADMIN")
-                        .requestMatchers("/auth/adm/**").hasRole("ADMIN")
-
-                        // PROFISSIONAL pode gerenciar Pacientes e PEWS
-                        .requestMatchers("/pacientes/**").hasRole("PROFISSIONAL")
-                        .requestMatchers("/avalicao/pews/**").hasRole("PROFISSIONAL")
-                        .requestMatchers("/auth/profissional/login").hasRole("PROFISSIONAL")
-
-                        // Qualquer outra requisição precisa estar autenticada
+    SecurityFilterChain authorizationSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.securityMatcher("/oauth2/**") // Aplica esta configuração apenas para endpoints de OAuth2
+                .authorizeHttpRequests(auth -> auth
                         .anyRequest().authenticated()
                 )
-                .securityMatcher("/oauth");
-
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
         return http.build();
     }
+
+
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
@@ -51,7 +42,9 @@ public class AuthorizationServerConfig {
                     grantTypes.add(AuthorizationGrantType.CLIENT_CREDENTIALS);
                     grantTypes.add(AuthorizationGrantType.REFRESH_TOKEN);
                 })
-                .scope("ROLE_ADMIN")
+                .scopes(scopes -> {  // O correto é definir escopos, não roles
+                    scopes.add("admin");
+                })
                 .build();
 
         RegisteredClient profissionalClient = RegisteredClient.withId(UUID.randomUUID().toString())
@@ -75,7 +68,7 @@ public class AuthorizationServerConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .issuer("http://localhost:9000")
+                .issuer("http://localhost:8080")
                 .build();
     }
 }
