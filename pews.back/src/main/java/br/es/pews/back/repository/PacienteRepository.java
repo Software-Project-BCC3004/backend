@@ -19,6 +19,6 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
     @Override
     List<Paciente> findAll();
 
-    Optional<Paciente> findPacienteByNomeResponsavel(String nomeResponsavel);
-    Optional<Paciente> findPacienteByCpfResponsavel(String cpfResponsavel);
+    Optional<Paciente> findByNomeResponsavel(String nomeResponsavel);
+    Optional<Paciente> findByCpfResponsavel(String cpfResponsavel);
 }

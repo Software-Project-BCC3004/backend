@@ -22,7 +22,7 @@ public class ADMServices {
     @Transactional
     public ResponseEntity<ADM> save(ADM adm) {
         try {
-            adm.setPassword(passwordEncoder.encode(adm.getPassword()));
+            adm.setSenha_adm(passwordEncoder.encode(adm.getSenha_adm()));
             ADM admSaved = admRepository.save(adm);
             return ResponseEntity.ok(admSaved);
         } catch (Exception e) {
@@ -36,12 +36,12 @@ public class ADMServices {
                 .orElseThrow(() -> new RuntimeException("ADM with ID: " + id + " not found"));
 
         // Atualiza manualmente os campos importantes
-        if (admDTO.emailADM() != null && !admDTO.emailADM().isEmpty()) {
-            admUpdated.setEmailADM(admDTO.emailADM());
+        if (admDTO.email() != null && !admDTO.email().isEmpty()) {
+            admUpdated.setEmail(admDTO.email());
         }
 
-        if (admDTO.senhaADM() != null && !admDTO.senhaADM().isEmpty()) {
-            admUpdated.setPassword(passwordEncoder.encode(admDTO.senhaADM()));
+        if (admDTO.senha() != null && !admDTO.senha().isEmpty()) {
+            admUpdated.setSenha_adm(passwordEncoder.encode(admDTO.senha()));
         }
 
         // Persiste no banco de dados

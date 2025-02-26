@@ -1,7 +1,6 @@
 package br.es.pews.back.models;
 
 import br.es.pews.back.dto.AdmDTO;
-import br.es.pews.back.dto.PacienteDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,24 +17,22 @@ public class ADM {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, nullable = false)
-    private String emailADM;
-    @Column(unique = true, nullable = false)
-    private String senhadADM;
+    @Column(name = "email_adm", unique = true, nullable = false)
+    private String email;
+    @Column(name = "senha_adm", nullable = false)
+    private String senha;
 
-    public void setPassword(String password) {
-        this.senhadADM = password;
+    public void setSenha_adm(String senha_adm) {
+        this.senha = senha_adm;
     }
 
-    public String getPassword() {
-        return senhadADM;
+    public String getSenha_adm() {
+        return senha;
     }
 
-    public ADM(AdmDTO admDTO){
-        this.id = admDTO.id();
-        this.emailADM = admDTO.emailADM();
-        this.senhadADM = admDTO.senhaADM();
-        
+    public ADM(AdmDTO admDTO) {
+        this.email = admDTO.email();
+        this.senha = admDTO.senha();
     }
 }
 

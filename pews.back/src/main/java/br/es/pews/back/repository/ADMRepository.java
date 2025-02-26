@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface ADMRepository extends JpaRepository<ADM, Long> {
-    Optional<ADM> findByEmailADM(String emailADM);
+    Optional<ADM> findByEmail(String email);
+
 }

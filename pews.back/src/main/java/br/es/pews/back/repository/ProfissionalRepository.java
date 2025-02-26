@@ -14,9 +14,9 @@ public interface ProfissionalRepository extends JpaRepository<Profissional, Long
     Optional<Profissional> findById(Long aLong);
     List<Profissional> findAll();
 
-    Optional<Profissional> findByEmailprofissional(String emailProfissional);
+    Optional<Profissional> findByEmail(String email);
 
-    Optional<Profissional> findProfissionalBytipoDocumentoProfissional(String tipoDocumentoProfissional);
-    Optional<Profissional> findProfissionalByNumeroDocumentoProfissional(String numeroDocumentoProfissional);
-    Optional<Profissional> findProfissionalByEstadoDocumentoProfissional(String estadoDocumentoProfissional);
+    Optional<Profissional> findByTipoDocumento(String tipo_documento);
+    Optional<Profissional> findByNumeroDocumento(String numero_documento);
+    Optional<Profissional> findByEstadoDocumento(String estado_documento);
 }
