@@ -69,7 +69,7 @@
     "nomeProfissional": "João Silva",
     "funcao": "Médico",
     "email": "joao@email.com",
-    "senhaProfissional": "senha123",
+    "senha": "senha123",
     "numeroDocumento": "123456",
     "tipoDocumento": "CRM",
     "estadoDocumento": "RJ"
@@ -94,7 +94,7 @@ Gerencia a autenticação dos profissionais.
   ```json
   {
     "email": "joao@email.com",
-    "senhaProfissional": "senha123"
+    "senha": "senha123"
   }
   ```
 
