@@ -27,7 +27,7 @@ public interface ProfissionalRepository extends JpaRepository<Profissional, Long
 
     Optional<Profissional> findByEmail(String email);
 
-    Optional<Profissional> findByTipoDocumento(String tipoDocumento);
+    List<Profissional> findByTipoDocumento(String tipoDocumento);
     Optional<Profissional> findByNumeroDocumento(String numeroDocumento);
     Optional<Profissional> findByEstadoDocumento(String estado_documento);
 
