@@ -14,7 +14,7 @@
    spring.datasource.username=root
    spring.datasource.password=root
    ```
-8. Alterar a roda das chaves públicas e privadas em toda aplicação
+8. Alterar a roTa das chaves públicas e privadas em toda aplicação
 9. Compilar e executar o projeto: `mvn clean package`, vai gerar uma pasta target com o arquivo .jar
 10. Dentro do diretório raiz do projeto, execute: `mvn spring-boot:run`
 11. Agora o backend está rodando: `localhost:8080`
