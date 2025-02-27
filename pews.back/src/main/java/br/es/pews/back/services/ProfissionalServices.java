@@ -44,28 +44,11 @@ public class ProfissionalServices {
         }
         return ResponseEntity.ok(profissionais);
     }
-    
-    
-    
-    public ResponseEntity<Profissional> getProfissionalByDocumento(Documento documento) {
-        Optional<Profissional> profissional = profissionalRepository.findProfissionalByDocumento(documento);
-        return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
 
 
-
-    public ResponseEntity<Profissional> getProfissionalByNome(String nomeProfissional) {
-        System.out.println("🔍 Buscando profissional com nome: '" + nomeProfissional + "'");
-    
-        Optional<Profissional> profissional = profissionalRepository.findByNomeProfissional(nomeProfissional);
-    
-        if (profissional.isPresent()) {
-            System.out.println("✅ Profissional encontrado: " + profissional.get().getNomeProfissional());
-        } else {
-            System.out.println("❌ Nenhum profissional encontrado para: '" + nomeProfissional + "'");
-        }
-    
-        return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<Profissional>> getProfissionalByNome(String nomeProfissional) {
+        List<Profissional> profissionals = profissionalRepository.findByNomeProfissional(nomeProfissional);
+        return profissionals.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(profissionals);
     }
     
 
@@ -78,14 +61,19 @@ public class ProfissionalServices {
     }
     
 
-    public ResponseEntity<Profissional> getProfissionalByNumeroDocumento(String numeroDocumentoProfissional) {
-        Optional<Profissional> profissional = profissionalRepository.findByNumeroDocumento(numeroDocumentoProfissional);
-        return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<Profissional>> getProfissionalByNumeroDocumento(String numeroDocumentoProfissional) {
+        List<Profissional> profissionals = profissionalRepository.findByNumeroDocumento(numeroDocumentoProfissional);
+        return profissionals.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(profissionals);
     }
 
-    public ResponseEntity<Profissional> getProfissionalByEstadoDocumento(String estadoDocumentoProfissional) {
-        Optional<Profissional> profissional = profissionalRepository.findByEstadoDocumento(estadoDocumentoProfissional);
-        return profissional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<Profissional>> getProfissionalByEstadoDocumento(String estadoDocumentoProfissional) {
+        List<Profissional> profissionals = profissionalRepository.findByEstadoDocumento(estadoDocumentoProfissional);
+        return profissionals.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(profissionals);
+    }
+
+    public ResponseEntity<List<Profissional>> getProfissionalByFuncao(String funcao){
+        List<Profissional> profissionals = profissionalRepository.findProfissionalByFuncao(funcao);
+        return profissionals.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(profissionals);
     }
 
     public ResponseEntity<Profissional> createProfissional(@RequestBody Profissional profissional) {

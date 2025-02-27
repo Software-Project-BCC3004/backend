@@ -12,8 +12,8 @@ import java.util.Optional;
 @Repository
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
     @Query("SELECT p FROM Paciente p WHERE LOWER(p.nomePaciente) LIKE LOWER(CONCAT(:nomePaciente, '%'))")
-    Optional<Paciente> findByNomePaciente(@Param("nomePaciente")String nomePaciente);
-    Optional<Paciente> findByCpfPaciente(String cpfPaciente);
+    List<Paciente> findByNomePaciente(@Param("nomePaciente")String nomePaciente);
+    List<Paciente> findByCpfPaciente(String cpfPaciente);
 
     @Override
     Optional<Paciente> findById(Long id);
@@ -21,6 +21,6 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
     List<Paciente> findAll();
 
     @Query("SELECT p FROM Paciente p WHERE LOWER(p.nomeResponsavel) LIKE LOWER(CONCAT(:nomeResponsavel, '%'))")
-    Optional<Paciente> findByNomeResponsavel(@Param("nomeResponsavel")String nomeResponsavel);
-    Optional<Paciente> findByCpfResponsavel(String cpfResponsavel);
+    List<Paciente> findByNomeResponsavel(@Param("nomeResponsavel")String nomeResponsavel);
+    List<Paciente> findByCpfResponsavel(String cpfResponsavel);
 }

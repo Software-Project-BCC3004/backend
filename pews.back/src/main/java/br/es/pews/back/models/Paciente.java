@@ -47,11 +47,6 @@ public class Paciente {
     @CPF(message = "CPF inválido")
     @Column(name = "cpf_responsavel", nullable = false)
     private String cpfResponsavel;
-  
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "medico_id", nullable = false)
-    @JsonIgnore
-    private Profissional profissional;
 
     public Paciente(PacienteDTO pacienteDTO) {
         if (pacienteDTO != null) {
