@@ -13,21 +13,6 @@
   "senha": "senha123"
   }
   ```
-- `PUT /atualizar/{id}` - Atualiza um administrador existente pelo ID.
-  -  `URL: localhost:8080/adm/atualizar/1`
-  ```json
-  {
-  "email": "admin@email.com",
-  "senha": "senha12345"
-  }
-  ```
-- `DELETE /delete/{id}` - Remove um administrador pelo ID.
-  - `URL: localhost:8080/adm/deletar/1`
-  ```json
-  {
-  }
-  Precisa de um token do Admin.
-  ```
 ---
 
 ## 2. AuthADMController
@@ -62,7 +47,7 @@
   - localhost:8080/profissional/consultar/documento/estado/{estadoDocumento}
 
 - `GET /consultar/nome/{nomeProfissional}` - Busca um profissional pelo nome.
-  - `URL: localhost:8080/pacientes/consultar/nome/Carlos`
+  - `URL: localhost:8080/profissional/consultar/nome/Carlos`
 
 - `POST /criar` - Cadastra um novo profissional.
   - `URL: localhost:8080/profissional/criar`
@@ -76,7 +61,6 @@
     "tipoDocumento": "CRM",
     "estadoDocumento": "RJ"
   }
-  Precisa de um token do Admin.
   ```
 - `PUT /atualizar/{id}` - Atualiza os dados de um profissional.
   - `URL: localhost:8080/profissional/atualizar/{id}`
@@ -90,14 +74,12 @@
     "tipoDocumento": "CRM",
     "estadoDocumento": "RJ"
   }
-  Precisa de um token do Admin.
   ```
 - `DELETE /deletar/{id}` - Remove um profissional do sistema.
   - `URL: localhost:8080/profissional/deletar/{id}`
   ```json
   {
   }
-  Precisa de um token do Admin.
   ```
 
 ## 4. AuthProfissionalController
@@ -141,14 +123,13 @@ Gerencia a autenticação dos profissionais.
   ```json
   {
     "nomePaciente": "Carlos Silva",
-    "cpfPaciente": "529.982.247-25",
+    "cpfPaciente": "529.982.247-25", // tem que ser um CPF válido
     "diagnostico": "Pneumonia",
     "leito": "A12",
     "grauSeveridade": "Moderado",
     "nomeResponsavel": "Maria Silva",
-    "cpfResponsavel": "286.241.320-60"
+    "cpfResponsavel": "286.241.320-60" // tem que ser um CPF válido
   }
-  Precisa de um token do Admin ou do Profissional.
   ```
 - `PUT /atualizar/{id}` - Atualiza os dados de um paciente.
   - `URL: localhost:8080/pacientes/atualizar/{id}`
@@ -162,14 +143,12 @@ Gerencia a autenticação dos profissionais.
     "nomeResponsavel": "Maria Silva",
     "cpfResponsavel": "123.456.789-09" // tem que ser um CPF válido
   }
-  Precisa de um token do Admin ou do Profissional.
   ```
 - `DELETE /deletar/{id}` - Remove um paciente do sistema.
   - `URL: localhost:8080/pacientes/deletar/{id}`
   ```
   {
   }
-  Precisa de um token do Admin ou do Profissional.
   ```
 
 ---
@@ -211,8 +190,9 @@ Gerencia a autenticação dos profissionais.
     "data_pews": "2025-02-26T15:30:00"
   }
 - `DELETE /deletar`- Deleta uma avaliação PEWS.
-```
-  {
-  }
+  -`URL: localhost:8080/avaliacao/pews/deletar/{id}`
+  ```
+    {
+    }
   ```
 
