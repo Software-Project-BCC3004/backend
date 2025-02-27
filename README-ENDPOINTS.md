@@ -49,6 +49,9 @@
 - `GET /consultar/nome/{nomeProfissional}` - Busca um profissional pelo nome.
   - `URL: localhost:8080/profissional/consultar/nome/Carlos`
 
+- `GET /consultar/funcao/{funcao}` - Busca um profissional pela função.
+  - `URL: localhost:8080/profissional/consultar/funcao/{funcao} 
+
 - `POST /criar` - Cadastra um novo profissional.
   - `URL: localhost:8080/profissional/criar`
   ```json
