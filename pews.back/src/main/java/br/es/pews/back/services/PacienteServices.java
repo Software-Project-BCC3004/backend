@@ -31,28 +31,24 @@ public class PacienteServices {
         return pacientes.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pacientes);
     }
 
-    public ResponseEntity<Paciente> getPacienteByCPF(String cpfPaciente) {
-        return pacienteRepository.findByCpfPaciente(cpfPaciente)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<Paciente>> getPacienteByCPF(String cpfPaciente) {
+        List<Paciente> pacientes = pacienteRepository.findByCpfPaciente(cpfPaciente);
+        return pacientes.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pacientes);
     }
 
-    public ResponseEntity<Paciente> getPacienteByNome(String nomePaciente) {
-        return pacienteRepository.findByNomePaciente(nomePaciente)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<Paciente>> getPacienteByNome(String nomePaciente) {
+        List<Paciente> pacientes = pacienteRepository.findByNomePaciente(nomePaciente);
+        return pacientes.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pacientes);
     }
 
-    public ResponseEntity<Paciente> getPacienteByNomeResponsavel (String nomeResponsavel) {
-        return pacienteRepository.findByNomeResponsavel(nomeResponsavel)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<Paciente>> getPacienteByNomeResponsavel (String nomeResponsavel) {
+        List<Paciente> pacientes = pacienteRepository.findByNomeResponsavel(nomeResponsavel);
+        return pacientes.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pacientes);
     }
 
-    public ResponseEntity<Paciente> getPacienteByCpfResponsavel (String cpfResponsavel) {
-        return pacienteRepository.findByCpfResponsavel(cpfResponsavel)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<Paciente>> getPacienteByCpfResponsavel (String cpfResponsavel) {
+        List<Paciente> pacientes = pacienteRepository.findByCpfResponsavel(cpfResponsavel);
+        return pacientes.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pacientes);
     }
 
     @Transactional

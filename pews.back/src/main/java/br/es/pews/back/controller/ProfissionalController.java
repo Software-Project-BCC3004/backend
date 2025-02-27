@@ -38,20 +38,24 @@ public class ProfissionalController {
 
 
     @GetMapping("/consultar/documento/numero/{numeroDocumento}")
-    public ResponseEntity<Profissional> getProfissionalByNumeroDocumentoProfissional(@PathVariable String numeroDocumento) {
+    public ResponseEntity<List<Profissional>> getProfissionalByNumeroDocumentoProfissional(@PathVariable String numeroDocumento) {
         return profissionalServices.getProfissionalByNumeroDocumento(numeroDocumento);
     }
 
     @GetMapping("/consultar/documento/estado/{estadoDocumento}")
-    public ResponseEntity<Profissional> getProfissionalByEstadoDocumentoProfissional(@PathVariable String estadoDocumento) {
+    public ResponseEntity<List<Profissional>>  getProfissionalByEstadoDocumentoProfissional(@PathVariable String estadoDocumento) {
         return profissionalServices.getProfissionalByEstadoDocumento(estadoDocumento);
     }
 
-    @GetMapping("/consultar/nome")
-public ResponseEntity<Profissional> getProfissionalByNome(@RequestParam String nome) {
-    return profissionalServices.getProfissionalByNome(nome);
-}
+    @GetMapping("/consultar/nome/{nomeProfissional}")
+    public ResponseEntity<List<Profissional>> getProfissionalByNome(@RequestParam String nomeProfissional) {
+        return profissionalServices.getProfissionalByNome(nomeProfissional);
+    }
 
+    @GetMapping("/consultar/funcao/{funcao}")
+    public ResponseEntity<List<Profissional>>  getProfissionaisByFuncao(@PathVariable String funcao) {
+        return profissionalServices.getProfissionalByFuncao(funcao);
+    }
 
     @PostMapping("/criar")
     public ResponseEntity<Profissional> createProfissional(@RequestBody Profissional profissional){

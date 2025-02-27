@@ -38,23 +38,25 @@ public class ADMServices {
         // Atualiza manualmente os campos importantes
         if (admDTO.email() != null && !admDTO.email().isEmpty()) {
             admUpdated.setEmail(admDTO.email());
-        
-        if (admDTO.emailADM() != null && !admDTO.emailADM().isEmpty()) {
-            admUpdated.setEmailADM(admDTO.emailADM());
 
-        }
+            if (admDTO.email() != null && !admDTO.email().isEmpty()) {
+                admUpdated.setEmail(admDTO.email());
 
-        if (admDTO.senha() != null && !admDTO.senha().isEmpty()) {
-            admUpdated.setSenha_adm(passwordEncoder.encode(admDTO.senha()));
-        }
+            }
 
-        // Persiste no banco de dados
-        ADM admSaved = admRepository.save(admUpdated);
-        return ResponseEntity.ok(admSaved);
+            if (admDTO.senha() != null && !admDTO.senha().isEmpty()) {
+                admUpdated.setSenha_adm(passwordEncoder.encode(admDTO.senha()));
+            }
+
+            // Persiste no banco de dados
+            ADM admSaved = admRepository.save(admUpdated);
+            return ResponseEntity.ok(admSaved);
+         }
+        return ResponseEntity.badRequest().build();
     }
 
     @Transactional
-    public ResponseEntity<ADM> delete(Long id) {
+    public ResponseEntity<ADM> delete(Long id){
         ADM admDelete = admRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("ADM with ID: " + id + " not found"));
         admRepository.delete(admDelete);
