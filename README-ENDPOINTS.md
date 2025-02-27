@@ -65,7 +65,7 @@
   - `URL: localhost:8080/pacientes/consultar/nome/Carlos`
 
 - `POST /criar` - Cadastra um novo profissional.
-  - `URL: localhost:8080/pacientes/criar`
+  - `URL: localhost:8080/profissional/criar`
   ```json
   {
     "nomeProfissional": "João Neto",
